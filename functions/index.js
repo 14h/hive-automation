@@ -24,7 +24,8 @@ function writeData(name, email,why) {
     database.ref('/' + email + '/' ).set({
         name:   name,
         email:  email,
-        why:    why
+        why:    why,
+
     }).then((res) => {
         console.log('success');
         return 0;
