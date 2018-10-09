@@ -1,5 +1,6 @@
 import { database } from './firebase';
 
+
 // export function writeUserDataEN(category, name, author, content, userUID, imageSRC, publishDate, publishMonth, publishYear) {
 //     let publishTime = publishYear + '-' + publishMonth;
 //     database.ref('stories/' + publishTime + '/en/' + category + '/' + name.replace(/[^a-zA-Z ]/g, "")).set({
