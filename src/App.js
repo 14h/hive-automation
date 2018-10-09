@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
-import Entry from './Entry'
+// import Entry from './Entry'
 import './App.css';
-import { Table, Icon, Switch, Radio, Form, Divider } from 'antd';
+import { Table, Icon, Button } from 'antd';
 import 'antd/dist/antd.css';
 
-const FormItem = Form.Item;
 
 const columns = [{
   title: 'Name',
   dataIndex: 'name',
   key: 'name',
-  width: 150,
+  width: 170,
   render: text => <div>{text}</div>,
 }, {
   title: 'Email',
@@ -18,46 +17,90 @@ const columns = [{
   key: 'email',
   width: 170,
 }, {
-  title: 'Address',
-  dataIndex: 'address',
-  key: 'address',
+  title: 'Wir sind neugierig, erzähl doch mal kurz wer du bist und was du machst!',
+  dataIndex: 'why',
+  key: 'why',
   width: 500,
 }, {
-  title: 'description',
+  title: 'Warum möchtest du Teil des Hives sein?',
   dataIndex: 'description',
   key: 'description',
   width: 500,
 }, {
-  title: 'Action',
-  key: 'action',
-  width: 100,
+  title: '',
+  key: 'action1',
+  width: 70,
+  render: (text, record) => (
+      <div>
+        {console.log(record)}
+        <Icon type="check-circle" theme="outlined"  style={{ fontSize: '25px', color: record.done?'#1aa85a':'#EEE' }}  /> 
+      </div>
+  ),
+}, {
+  title: <Button>Approve</Button>,
+  key: 'action2',
+  width: 70,
+  render: (text, record) => (
+      <Button>Approve</Button>
+  ),
+}, {
+  title: '',
+  key: 'action3',
+  width: 50,
   render: (text, record) => (
     <span>
-      
-      <a href="javascript:;">Delete</a>
-      {/* <Divider type="vertical" /> */}
-      
+      <Button type="danger" shape="circle" icon="delete" />
     </span>
   ),
 }];
 
-const data = [];
-for (let i = 1; i <= 50; i++) {
-  data.push({
-    key: i,
+const data = [
+  {
+    key: 1,
     name: 'John Brown',
     email: 'kawji@thedive.com',
-    address: `New York No. ${i} Lake Park`,
-    description: `My name is John Brown, I am ${i}2 years old, living2 years old, living in New York No. ${i} Lake Park.`,
-  });
-}
+    why: `New York No.  Lake Park`,
+    description: `My name is John Brown, I am 2 years old, living2 years old, living in New York No. $Lake Park.`,
+  },
+  {
+    key: 2,
+    name: 'John Brown',
+    email: 'kawji@thedive.com',
+    why: `New York No.  Lake Park`,
+    description: `My name is John Brown, I am 2 years old, living2 years old, living in New York No. $Lake Park.`,
+    done:true,
+  },
+  {
+    key: 3,
+    name: 'John Brown',
+    email: 'kawji@thedive.com',
+    why: `New York No.  Lake Park`,
+    description: `My name is John Brown, I am 2 years old, living2 years old, living in New York No. $Lake Park.`,
+  },
+  {
+    key: 4,
+    name: 'John Brown',
+    email: 'kawji@thedive.com',
+    why: `New York No.  Lake Park`,
+    description: `My name is John Brown, I am 2 years old, living2 years old, living in New York No. $Lake Park.`,
+  },
+];
+// for (let i = 1; i <= 50; i++) {
+//   data.push({
+//     key: i,
+//     name: 'John Brown',
+//     email: 'kawji@thedive.com',
+//     why: `New York No. ${i} Lake Park`,
+//     description: `My name is John Brown, I am ${i}2 years old, living2 years old, living in New York No. ${i} Lake Park.`,
+//   });
+// }
 
-const expandedRowRender = record => <p>{record.description}</p>;
-const title = () => 'Here is title';
+// const expandedRowRender = record => <p>{record.description}</p>;
+// const title = () => 'Here is title';
 const showHeader = true;
-const footer = () => 'Here is footer';
-const scroll = { y: 240 };
-const pagination = { position: 'bottom' };
+// const footer = () => 'Here is footer';
+// const scroll = { y: 240 };
+// const pagination = { position: 'bottom' };
 
 class DataTable extends React.Component {
   state = {
@@ -65,10 +108,8 @@ class DataTable extends React.Component {
     loading: false,
     pagination: false,
     size: 'default',
-    // expandedRowRender,
     title: undefined,
     showHeader,
-    // footer,
     rowSelection: {},
     scroll: undefined,
     hasData: true,
@@ -77,7 +118,7 @@ class DataTable extends React.Component {
 
   render() {
     const state = this.state;
-    console.log(this.state.rowSelection)
+
     return (
       <div>
         <Table {...this.state} columns={columns} scroll={{ y: '90vh' }} dataSource={state.hasData ? data : null} />
