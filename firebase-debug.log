@@ -1,0 +1,34 @@
+[debug] [2018-10-10T09:54:54.950Z] ----------------------------------------------------------------------
+[debug] [2018-10-10T09:54:54.952Z] Command:       /usr/local/bin/node /usr/local/bin/firebase serve
+[debug] [2018-10-10T09:54:54.953Z] CLI Version:   5.0.1
+[debug] [2018-10-10T09:54:54.953Z] Platform:      darwin
+[debug] [2018-10-10T09:54:54.953Z] Node Version:  v10.10.0
+[debug] [2018-10-10T09:54:54.954Z] Time:          Wed Oct 10 2018 11:54:54 GMT+0200 (Central European Summer Time)
+[debug] [2018-10-10T09:54:54.954Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-10-10T09:54:54.966Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-10-10T09:54:54.966Z] > authorizing via signed-in user
+[debug] [2018-10-10T09:54:54.966Z] [iam] checking project hiveautomation-c5f65 for permissions ["firebase.projects.get"]
+[debug] [2018-10-10T09:54:54.968Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/hiveautomation-c5f65:testIamPermissions  
+
+[debug] [2018-10-10T09:54:55.900Z] <<< HTTP RESPONSE 200
+[debug] [2018-10-10T09:54:55.901Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/hiveautomation-c5f65  
+ 
+[debug] [2018-10-10T09:54:56.700Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from '/Users/abdallahkawji/Documents/TheDive/hive-automation'...
+[info] 
+[info] i  functions: Preparing to emulate functions.
+[debug] [2018-10-10T09:54:57.456Z] Fetching environment
+[debug] [2018-10-10T09:54:57.459Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/828985598310:getServerAppConfig  
+ 
+[debug] [2018-10-10T09:54:57.459Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/828985598310/clients/_:getWebAppConfig  
+ 
+[debug] [2018-10-10T09:54:57.682Z] <<< HTTP RESPONSE 200
+[debug] [2018-10-10T09:54:57.683Z] Starting @google-cloud/functions-emulator
+[debug] [2018-10-10T09:54:57.875Z] <<< HTTP RESPONSE 200
+[info] i  hosting: Serving hosting files from: build
+[info] ✔  hosting: Local server: http://localhost:5000
+[debug] [2018-10-10T09:54:58.955Z] Parsing function triggers
+[info] ✔  functions: helloWorld: http://localhost:5001/hiveautomation-c5f65/us-central1/helloWorld
+[info] ✔  functions: removeData: http://localhost:5001/hiveautomation-c5f65/us-central1/removeData

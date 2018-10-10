@@ -17,7 +17,7 @@ if (!firebase.apps.length) {
   firebase.initializeApp(config);
 }
 
-// const auth = firebase.auth();
+
 const database = firebase.database();
 
 function writeData(name, email,why) {
@@ -34,19 +34,36 @@ function writeData(name, email,why) {
         console.log(err);
         // event.preventDefault();
       });
-  }
-    
-function getAll(){
-
-    return database.ref('/' ).once('value').then((snapshot)=>{
-       return snapshot.val();
-    })
 }
 
-// // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
-//
-exports.helloWorld = functions.https.onRequest((request, response) => {
-    writeData("nam1", "email1", "whhhhyyyy!");
-    response.send(getAll());
+    
+function getAll(){
+    console.log(firebase)
+    return database.ref('/' ).once('value').then((snapshot)=>{
+       return snapshot.val();
+    }).catch((err)=>{
+        console.log(err);
+    });
+}
+
+function removeData( email ) {
+    console.log(lang,category,name)
+    database.ref('/' + email + '/' ).remove().then((res)=>{
+        console.log('success');
+        console.log(res);
+        return 1;
+        }).catch((err)=>{
+        console.log(err);
+    });
+}
+exports.removeData = functions.https.onRequest((request, response) => {
+    removeData("email1")
+    response.send("success");
 });
+module.exports.getAll = getAll;
+
+exports.helloWorld = functions.https.onRequest((request, response) => {
+    writeData("nam2", "email2", "whhhhyyy2y!");
+    response.send("success");
+});
+
