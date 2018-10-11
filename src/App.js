@@ -192,6 +192,9 @@ class DataTable extends React.Component {
 
 
     let currentComponent = this;
+    currentComponent.setState({
+      loading:true
+    });
     var getJSON = function(url, callback) {
       var xhr = new XMLHttpRequest();
       xhr.open('GET', url);
@@ -214,9 +217,12 @@ class DataTable extends React.Component {
         if (err !== null) {
           alert('Something went wrong: ' + err);
         } else {
-
+          console.log(email)
           currentComponent.setState((state) => {
-            return {data: state.data.filter(entry => entry.email !== email) };
+            return {
+              data: state.data.filter(entry => entry.email !== email),
+              loading:false
+             };
           });
         }
       });

@@ -46,18 +46,26 @@ function getAll(){
     });
 }
 
-function removeData( email ) {
-
-    database.ref('/'+ 'entries'+'/' + email + '/' ).remove().then((response)=>{
-        response.send("success");
-        return 1;
-    }).catch((err)=>{
-        response.send(err);
-    });
-}
 exports.removeData = functions.https.onRequest((request, response) => {
-    removeData(request.query.email.replace(/[^a-zA-Z ]/g, ""))
-    response.send("success");
+
+    database.ref('/'+ request.query.email.replace(/[^a-zA-Z ]/g, "") + '/' ).remove().then((response)=>{
+            response.setHeader("Access-Control-Allow-Origin", '*');
+            response.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
+            response.setHeader('Access-Control-Allow-Headers', 'Content-Type,Accept');
+            response.header("Access-Control-Allow-Origin", '*');
+            response.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
+            response.header('Access-Control-Allow-Headers', 'Content-Type,Accept');
+            response.send("success");
+            return 1;
+        }).catch((err)=>{
+            response.setHeader("Access-Control-Allow-Origin", '*');
+            response.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
+            response.setHeader('Access-Control-Allow-Headers', 'Content-Type,Accept');
+            response.header("Access-Control-Allow-Origin", '*');
+            response.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
+            response.header('Access-Control-Allow-Headers', 'Content-Type,Accept');
+            response.send(err);
+    });
 });
 
 
@@ -74,9 +82,8 @@ exports.addData = functions.https.onRequest((request, response) => {
         response.send("success");
         return 0;
 
-    }).catch((err) => {
-        // console.log(err);
-        response.send(err);
+        }).catch((err) => {
+        response.send(err)
 
     });
 });
@@ -91,7 +98,7 @@ exports.getAll = functions.https.onRequest((request, response) => {
         response.send(snapshot.val());
         return snapshot.val();
      }).catch((err)=>{
-        response.send((err);
+        response.send(err);
      });
 });
 
