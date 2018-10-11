@@ -1,34 +1,28 @@
-[debug] [2018-10-10T09:54:54.950Z] ----------------------------------------------------------------------
-[debug] [2018-10-10T09:54:54.952Z] Command:       /usr/local/bin/node /usr/local/bin/firebase serve
-[debug] [2018-10-10T09:54:54.953Z] CLI Version:   5.0.1
-[debug] [2018-10-10T09:54:54.953Z] Platform:      darwin
-[debug] [2018-10-10T09:54:54.953Z] Node Version:  v10.10.0
-[debug] [2018-10-10T09:54:54.954Z] Time:          Wed Oct 10 2018 11:54:54 GMT+0200 (Central European Summer Time)
-[debug] [2018-10-10T09:54:54.954Z] ----------------------------------------------------------------------
+[debug] [2018-10-11T13:41:25.436Z] ----------------------------------------------------------------------
+[debug] [2018-10-11T13:41:25.440Z] Command:       /usr/local/bin/node /usr/local/bin/firebase deploy
+[debug] [2018-10-11T13:41:25.440Z] CLI Version:   5.0.1
+[debug] [2018-10-11T13:41:25.440Z] Platform:      darwin
+[debug] [2018-10-11T13:41:25.440Z] Node Version:  v10.10.0
+[debug] [2018-10-11T13:41:25.441Z] Time:          Thu Oct 11 2018 15:41:25 GMT+0200 (Central European Summer Time)
+[debug] [2018-10-11T13:41:25.441Z] ----------------------------------------------------------------------
 [debug] 
-[debug] [2018-10-10T09:54:54.966Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2018-10-10T09:54:54.966Z] > authorizing via signed-in user
-[debug] [2018-10-10T09:54:54.966Z] [iam] checking project hiveautomation-c5f65 for permissions ["firebase.projects.get"]
-[debug] [2018-10-10T09:54:54.968Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/hiveautomation-c5f65:testIamPermissions  
+[debug] [2018-10-11T13:41:25.457Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-10-11T13:41:25.457Z] > authorizing via signed-in user
+[debug] [2018-10-11T13:41:25.457Z] [iam] checking project hiveautomation-c5f65 for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get","firebasedatabase.instances.update","firebasehosting.sites.update"]
+[debug] [2018-10-11T13:41:25.459Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2018-10-11T13:41:25.459Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2018-10-11T13:41:25.639Z] <<< HTTP RESPONSE 200
+[debug] [2018-10-11T13:41:25.652Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/hiveautomation-c5f65:testIamPermissions  
 
-[debug] [2018-10-10T09:54:55.900Z] <<< HTTP RESPONSE 200
-[debug] [2018-10-10T09:54:55.901Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/hiveautomation-c5f65  
+[debug] [2018-10-11T13:41:26.591Z] <<< HTTP RESPONSE 200
+[debug] [2018-10-11T13:41:26.592Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/hiveautomation-c5f65  
  
-[debug] [2018-10-10T09:54:56.700Z] <<< HTTP RESPONSE 200
+[debug] [2018-10-11T13:41:27.299Z] <<< HTTP RESPONSE 200
 [info] 
-[info] === Serving from '/Users/abdallahkawji/Documents/TheDive/hive-automation'...
+[info] === Deploying to 'hiveautomation-c5f65'...
 [info] 
-[info] i  functions: Preparing to emulate functions.
-[debug] [2018-10-10T09:54:57.456Z] Fetching environment
-[debug] [2018-10-10T09:54:57.459Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/828985598310:getServerAppConfig  
- 
-[debug] [2018-10-10T09:54:57.459Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/828985598310/clients/_:getWebAppConfig  
- 
-[debug] [2018-10-10T09:54:57.682Z] <<< HTTP RESPONSE 200
-[debug] [2018-10-10T09:54:57.683Z] Starting @google-cloud/functions-emulator
-[debug] [2018-10-10T09:54:57.875Z] <<< HTTP RESPONSE 200
-[info] i  hosting: Serving hosting files from: build
-[info] ✔  hosting: Local server: http://localhost:5000
-[debug] [2018-10-10T09:54:58.955Z] Parsing function triggers
-[info] ✔  functions: helloWorld: http://localhost:5001/hiveautomation-c5f65/us-central1/helloWorld
-[info] ✔  functions: removeData: http://localhost:5001/hiveautomation-c5f65/us-central1/removeData
+[info] i  deploying database, functions, hosting
+[info] Running command: npm --prefix "$RESOURCE_DIR" run lint
+[error] 
+[error] Error: functions predeploy error: Command terminated with non-zero exit code1

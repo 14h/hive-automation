@@ -1,157 +1,236 @@
 import React, { Component } from 'react';
+
+// import axios from 'axios';
+// import https from 'https';
 import './App.css';
 import { Table, Icon, Button } from 'antd';
 import 'antd/dist/antd.css';
 
 
-// for (let i = 1; i <= 50; i++) {
-//   data.push({
-//     key: i,
-//     name: 'John Brown',
-//     email: 'kawji@thedive.com',
-//     why: `New York No. ${i} Lake Park`,
-//     description: `My name is John Brown, I am ${i}2 years old, living2 years old, living in New York No. ${i} Lake Park.`,
-//   });
-// }
-
-// const expandedRowRender = record => <p>{record.description}</p>;
+// const expandedRowRender = record => <p>{record.why2}</p>;
 // const title = () => 'Here is title';
 const showHeader = true;
 // const footer = () => 'Here is footer';
 // const scroll = { y: 240 };
 // const pagination = { position: 'bottom' };
 
-// rowSelection object indicates the need for row selection
-// const rowSelection = {
-//   onChange: (selectedRowKeys, selectedRows) => {
-//     console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-//   },
-//   getCheckboxProps: record => ({
-//     disabled: record.name === 'Disabled User', // Column configuration not to be checked
-//     name: record.name,
-//   }),
-// };
 
 class DataTable extends React.Component {
-  state = {
-    bordered: true,
-    loading: false,
-    pagination: false,
-    size: 'default',
-    title: undefined,
-    showHeader,
-    selectedRows:[],
-    rowSelection: {
-      onChange: (selectedRowKeys, selectedRows) => {
-        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-        this.setState({selectedRows:selectedRows.map(entry=>entry.email)})
+  constructor(props) {
+    super(props);
+    this.state = {
+      bordered: true,
+      pagination: false,
+      size: 'default',
+      title: undefined,
+      showHeader,
+      selectedRows:[],
+      rowSelection: {
+        onChange: (selectedRowKeys, selectedRows) => {
+          // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+          this.setState({selectedRows:selectedRows.map(entry=>entry.email)})
+        },
+        getCheckboxProps: record => ({
+          disabled: record.name === 'Disabled User', // Column configuration not to be checked
+          name: record.name,
+        }),
       },
-      getCheckboxProps: record => ({
-        disabled: record.name === 'Disabled User', // Column configuration not to be checked
-        name: record.name,
-      }),
-    },
-    scroll: undefined,
-    hasData: true,
-    data : [
-      {
-        key: 1,
-        name: 'John Brown',
-        email: 'kawj1i@thedive.com',
-        why: `New York No.  Lake Park`,
-        description: `My name is John Brown, I am 2 years old, living2 years old, living in New York No. $Lake Park.`,
-      },
-      {
-        key: 2,
-        name: 'John Brown',
-        email: 'kawji2@thedive.com',
-        why: `New York No.  Lake Park`,
-        description: `My name is John Brown, I am 2 years old, living2 years old, living in New York No. $Lake Park.`,
-        done:true,
-      },
-      {
-        key: 3,
-        name: 'John Brown',
-        email: 'kawj3i@thedive.com',
-        why: `New York No.  Lake Park`,
-        description: `My name is John Brown, I am 2 years old, living2 years old, living in New York No. $Lake Park.`,
-      },
-      {
-        key: 4,
-        name: 'John Brown12',
-        email: 'kawji4@thedive.com',
-        why: `New York No.  Lake Park`,
-        description: `My name is John Brown, I am 2 years old, living2 years old, living in New York No. $Lake Park.`,
-      },
-    ],
-    columns : [{
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
-      width: 170,
-      render: text => <div>{text}</div>,
-    }, {
-      title: 'Email',
-      dataIndex: 'email',
-      key: 'email',
-      width: 200,
-    }, {
-      title: 'Wir sind neugierig, erzähl doch mal kurz wer du bist und was du machst!',
-      dataIndex: 'why',
-      key: 'why',
-      width: 500,
-    }, {
-      title: 'Warum möchtest du Teil des Hives sein?',
-      dataIndex: 'description',
-      key: 'description',
-      width: 500,
-    }, {
-      title: <Icon type="check-circle" theme="outlined"  style={{ fontSize: '25px', color: 'transparent' }}  /> ,
-      key: 'action1',
-      width: 70,
-      render: (text, record) => (
-          <div>
-            {/* {console.log(record)} */}
-            <Icon type="check-circle" theme="outlined"  style={{ fontSize: '25px', color: record.done?'#1aa85a':'#EEE' }}  /> 
-          </div>
-      ),
-    }, {
-      title: <Button>Approve</Button>,
-      key: 'action2',
-      width: 70,
-      render: (text, record) => (
-          <Button>Approve</Button>
-      ),
-    }, {
-      title: <Button type="danger" shape="circle" icon="delete" onClick={()=>{
-                this.state.selectedRows.forEach(selectedEmail=>this.delete(selectedEmail))
-                
-              }}/>,
-      key: 'action3',
-      width: 50,
-      render: (text, record) => (
-        <span>
-          <Button type="danger" shape="circle" icon="delete" onClick={(e)=>{
-              let selectedEmail = e.target.parentElement.parentElement.parentElement.children[2].textContent;
-              console.log(selectedEmail)
-              this.delete(selectedEmail)
-            }}/>
-        </span>
-      ),
-    }]
-  }
-
-  delete(email){
-    this.setState((state) => {
-      return {data: state.data.filter(entry => entry.email !== email) };
-    });
+      scroll: undefined,
+      hasData: true,
+      data : [
+        {
+          key:    0,
+          name:   '',
+          email:  '',
+          why1:   '',
+          why2:   ''
+        },
+        {
+          key:    1,
+          name:   '',
+          email:  '',
+          why1:   '',
+          why2:   ''
+        },
+        {
+          key:    2,
+          name:   '',
+          email:  '',
+          why1:   '',
+          why2:   ''
+        },
+        {
+          key:    3,
+          name:   '',
+          email:  '',
+          why1:   '',
+          why2:   ''
+        },
+        {
+          key:    4,
+          name:   '',
+          email:  '',
+          why1:   '',
+          why2:   ''
+        },
+      ],
+      loading: true,
+      columns : [{
+        title: 'Name',
+        dataIndex: 'name',
+        key: 'name',
+        width: 170,
+        render: text => <div>{text}</div>,
+      }, {
+        title: 'Email',
+        dataIndex: 'email',
+        key: 'email',
+        width: 200,
+      }, {
+        title: 'Wir sind neugierig, erzähl doch mal kurz wer du bist und was du machst!',
+        dataIndex: 'why1',
+        key: 'why1',
+        width: 500,
+      }, {
+        title: 'Warum möchtest du Teil des Hives sein?',
+        dataIndex: 'why2',
+        key: 'why2',
+        width: 500,
+      }, {
+        title: <Icon type="check-circle" theme="outlined"  style={{ fontSize: '25px', color: 'transparent' }}  /> ,
+        key: 'action1',
+        width: 70,
+        render: (text, record) => (
+            <div>
+              <Icon type="check-circle" theme="outlined"  style={{ fontSize: '25px', color: record.done?'#1aa85a':'#EEE' }}  /> 
+            </div>
+        ),
+      }, {
+        title: <Button>Approve</Button>,
+        key: 'action2',
+        width: 70,
+        render: (text, record) => (
+            <Button>Approve</Button>
+        ),
+      }, {
+        title: <Button type="danger" shape="circle" icon="delete" onClick={()=>{
+                  this.state.selectedRows.forEach(selectedEmail=>this.delete(selectedEmail))
+                  
+                }}/>,
+        key: 'action3',
+        width: 50,
+        render: (text, record) => (
+          <span>
+            <Button type="danger" shape="circle" icon="delete" onClick={(e)=>{
+                let selectedEmail = e.target.parentElement.parentElement.parentElement.children[2].textContent;
+                this.delete(selectedEmail)
+              }}/>
+          </span>
+        ),
+      }]
+    }
+    this.getJSONData = this.getJSONData.bind(this);
   }
   
+  
+
+
+
+  getJSONData(){
+
+
+    let currentComponent = this;
+    if(currentComponent.state.data[0].name.length < 1){
+      var getJSON = function(url, callback) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', url);
+        // xhr.setRequestHeader('Access-Control-Allow-Headers', 'true')
+        // xhr.setRequestHeader('Access-Control-Allow-Origin', 'true')
+        xhr.responseType = 'json';
+        xhr.onload = function() {
+          var status = xhr.status;
+          if (status === 200) {
+            callback(null, xhr.response);
+          } else {
+            callback(status, xhr.response);
+          }
+        };
+        xhr.send();
+      };
+
+      getJSON('https://us-central1-hiveautomation-c5f65.cloudfunctions.net/getAll',
+        function(err, data) {
+          if (err !== null) {
+            alert('Something went wrong: ' + err);
+          } else {
+            console.log( Object.values(data))
+            let dataArray = Object.values(data);
+            dataArray.map((entry,i)=>{
+              entry.key = i;
+              return entry;
+            })
+            currentComponent.setState({
+              data: dataArray,
+              loading: false
+            })
+          }
+        });
+      }
+    }
+
+
+
+
+
+
+
+  delete(email){
+
+    // this.setState((state) => {
+    //   return {data: state.data.filter(entry => entry.email !== email) };
+    // });
+
+
+    let currentComponent = this;
+    var getJSON = function(url, callback) {
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', url);
+      // xhr.setRequestHeader('Access-Control-Allow-Headers', 'true')
+      // xhr.setRequestHeader('Access-Control-Allow-Origin', 'true')
+      xhr.responseType = 'json';
+      xhr.onload = function() {
+        var status = xhr.status;
+        if (status === 200) {
+          callback(null, xhr.response);
+        } else {
+          callback(status, xhr.response);
+        }
+      };
+      xhr.send();
+    };
+
+    getJSON('https://us-central1-hiveautomation-c5f65.cloudfunctions.net/removeData?email='+email,
+      function(err, data) {
+        if (err !== null) {
+          alert('Something went wrong: ' + err);
+        } else {
+
+          currentComponent.setState((state) => {
+            return {data: state.data.filter(entry => entry.email !== email) };
+          });
+        }
+      });
+  }
+  componentWillMount(){
+    console.log("called")
+    this.getJSONData();
+  }
 
   render() {
     const state = this.state;
-    console.log(this.state)
-    // console.log(this.state.rowSelection.getCheckboxProps())
+
+    this.getJSONData();
+
 
     return (
       <div>
@@ -168,6 +247,13 @@ class App extends Component {
     return (
       <div className="App">
         <DataTable />
+        <form action="https://us-central1-hiveautomation-c5f65.cloudfunctions.net/addData" target="https://www.google.com">
+        name: <input type="text" name="name" required/><br/>
+        email: <input type="text" name="email" required/><br/>
+        why1: <input type="text" name="why1" required/><br/>
+        why2: <input type="text" name="why2" required/><br/>
+        <input type="submit" value="Submit"/>
+        </form>
       </div>
     );
   }
