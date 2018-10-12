@@ -3,8 +3,26 @@ import React, { Component } from 'react';
 // import axios from 'axios';
 // import https from 'https';
 import './App.css';
-import { Table, Icon, Button } from 'antd';
+import { Table, Icon, Button, notification } from 'antd';
 import 'antd/dist/antd.css';
+
+import * as firebase from 'firebase';
+import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+
+const config = {
+    apiKey: "AIzaSyCEeSAoo9PfTT1aK4CMgC_rhcCZ6H7HTmM",
+    authDomain: "hiveautomation-c5f65.firebaseapp.com",
+    databaseURL: "https://hiveautomation-c5f65.firebaseio.com",
+    projectId: "hiveautomation-c5f65",
+    storageBucket: "hiveautomation-c5f65.appspot.com",
+    messagingSenderId: "828985598310"
+};
+
+if (!firebase.apps.length) {
+  firebase.initializeApp(config);
+}
+
+// const auth = firebase.auth();
 
 
 // const expandedRowRender = record => <p>{record.why2}</p>;
@@ -19,6 +37,20 @@ class DataTable extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      uiConfig : {
+        // Popup signin flow rather than redirect flow.
+        signInFlow: 'popup',
+        // We will display Google and Facebook as auth providers.
+        signInOptions: [
+          firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+          // firebase.auth.FacebookAuthProvider.PROVIDER_ID
+        ],
+        callbacks: {
+          // Avoid redirects after sign-in.
+          signInSuccessWithAuthResult: () => false
+        }
+      },
+      isSignedIn: false,
       bordered: true,
       pagination: false,
       size: 'default',
@@ -127,9 +159,11 @@ class DataTable extends React.Component {
               }}/>
           </span>
         ),
-      }]
+      }],
     }
+    
     this.getJSONData = this.getJSONData.bind(this);
+    this.unregisterAuthObserver = this.unregisterAuthObserver.bind(this);
   }
   
   
@@ -185,12 +219,6 @@ class DataTable extends React.Component {
 
 
   delete(email){
-
-    // this.setState((state) => {
-    //   return {data: state.data.filter(entry => entry.email !== email) };
-    // });
-
-
     let currentComponent = this;
     currentComponent.setState({
       loading:true
@@ -227,20 +255,59 @@ class DataTable extends React.Component {
         }
       });
   }
+  unregisterAuthObserver(){
+    firebase.auth().onAuthStateChanged(
+      (user) => this.setState({isSignedIn: !!user})
+    );
+  } 
+  // Listen to the Firebase Auth state and set the local state.
+  componentDidMount() {
+    this.unregisterAuthObserver = firebase.auth().onAuthStateChanged(
+        (user) => this.setState({isSignedIn: !!user})
+    );
+  }
   componentWillMount(){
     console.log("called")
     this.getJSONData();
+    this.unregisterAuthObserver();
   }
 
   render() {
     const state = this.state;
+    if(firebase.auth().currentUser)
+    console.log(firebase.auth().currentUser.email)
+    if (!this.state.isSignedIn) {
+      return (
+        <div id="firebaseui-auth-container">
+          {/* <h1>My App</h1>
+          <p>Please sign-in:</p> */}
+          <StyledFirebaseAuth uiConfig={this.state.uiConfig} firebaseAuth={firebase.auth()}/>
+        </div>
+      );
+    }
+    if(firebase.auth().currentUser && !firebase.auth().currentUser.email.includes("@thedive.com")){
+      notification.open({
+        message: 'Sign In Error',
+        description: 'You have to sign in using you @thedive email address. You will be automatically signed out! please try again!',
+      });
 
-    this.getJSONData();
-
+      firebase.auth().signOut();
+      return (
+        <div/>
+      );
+    }
 
     return (
       <div>
         <Table {...this.state} columns={this.state.columns} scroll={{ y: '90vh' }} dataSource={state.hasData ? this.state.data : null} />
+        <Button type="danger" id="firebaseui-auth-container" onClick={() => firebase.auth().signOut()}>Sign-out</Button>
+        <form action="https://us-central1-hiveautomation-c5f65.cloudfunctions.net/addData" target="https://www.google.com">
+          name: <input type="text" name="name" required/><br/>
+          email: <input type="text" name="email" required/><br/>
+          why1: <input type="text" name="why1" required/><br/>
+          why2: <input type="text" name="why2" required/><br/>
+          <input type="submit" value="Submit"/>
+        </form>
       </div>
     );
   }
@@ -253,13 +320,7 @@ class App extends Component {
     return (
       <div className="App">
         <DataTable />
-        <form action="https://us-central1-hiveautomation-c5f65.cloudfunctions.net/addData" target="https://www.google.com">
-        name: <input type="text" name="name" required/><br/>
-        email: <input type="text" name="email" required/><br/>
-        why1: <input type="text" name="why1" required/><br/>
-        why2: <input type="text" name="why2" required/><br/>
-        <input type="submit" value="Submit"/>
-        </form>
+        
       </div>
     );
   }

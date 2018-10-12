@@ -1,20 +1,20 @@
-[debug] [2018-10-11T14:03:38.753Z] ----------------------------------------------------------------------
-[debug] [2018-10-11T14:03:38.755Z] Command:       /usr/local/bin/node /usr/local/bin/firebase deploy
-[debug] [2018-10-11T14:03:38.756Z] CLI Version:   5.0.1
-[debug] [2018-10-11T14:03:38.756Z] Platform:      darwin
-[debug] [2018-10-11T14:03:38.756Z] Node Version:  v10.10.0
-[debug] [2018-10-11T14:03:38.757Z] Time:          Thu Oct 11 2018 16:03:38 GMT+0200 (Central European Summer Time)
-[debug] [2018-10-11T14:03:38.757Z] ----------------------------------------------------------------------
+[debug] [2018-10-12T13:09:55.530Z] ----------------------------------------------------------------------
+[debug] [2018-10-12T13:09:55.532Z] Command:       /usr/local/bin/node /usr/local/bin/firebase deploy
+[debug] [2018-10-12T13:09:55.532Z] CLI Version:   5.0.1
+[debug] [2018-10-12T13:09:55.533Z] Platform:      darwin
+[debug] [2018-10-12T13:09:55.533Z] Node Version:  v10.10.0
+[debug] [2018-10-12T13:09:55.533Z] Time:          Fri Oct 12 2018 15:09:55 GMT+0200 (Central European Summer Time)
+[debug] [2018-10-12T13:09:55.533Z] ----------------------------------------------------------------------
 [debug] 
-[debug] [2018-10-11T14:03:38.771Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2018-10-11T14:03:38.772Z] > authorizing via signed-in user
-[debug] [2018-10-11T14:03:38.772Z] [iam] checking project hiveautomation-c5f65 for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get","firebasedatabase.instances.update","firebasehosting.sites.update"]
-[debug] [2018-10-11T14:03:38.773Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/hiveautomation-c5f65:testIamPermissions  
+[debug] [2018-10-12T13:09:55.546Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-10-12T13:09:55.547Z] > authorizing via signed-in user
+[debug] [2018-10-12T13:09:55.547Z] [iam] checking project hiveautomation-c5f65 for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get","firebasedatabase.instances.update","firebasehosting.sites.update"]
+[debug] [2018-10-12T13:09:55.548Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/hiveautomation-c5f65:testIamPermissions  
 
-[debug] [2018-10-11T14:03:39.714Z] <<< HTTP RESPONSE 200
-[debug] [2018-10-11T14:03:39.715Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/hiveautomation-c5f65  
+[debug] [2018-10-12T13:09:56.619Z] <<< HTTP RESPONSE 200
+[debug] [2018-10-12T13:09:56.624Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/hiveautomation-c5f65  
  
-[debug] [2018-10-11T14:03:40.509Z] <<< HTTP RESPONSE 200
+[debug] [2018-10-12T13:09:58.428Z] <<< HTTP RESPONSE 200
 [info] 
 [info] === Deploying to 'hiveautomation-c5f65'...
 [info] 
@@ -22,7 +22,7 @@
 [info] Running command: npm --prefix "$RESOURCE_DIR" run lint
 [info] ✔  functions: Finished running predeploy script.
 [info] i  database: checking rules syntax...
-[debug] [2018-10-11T14:03:45.379Z] >>> HTTP REQUEST PUT https://hiveautomation-c5f65.firebaseio.com/.settings/rules.json?dryRun=true  
+[debug] [2018-10-12T13:10:05.186Z] >>> HTTP REQUEST PUT https://hiveautomation-c5f65.firebaseio.com/.settings/rules.json?dryRun=true  
  {
   /* Visit https://firebase.google.com/docs/database/security to learn more about security rules. */
   "rules": {
@@ -30,9 +30,9 @@
     ".write": true,
   }
 }
-[debug] [2018-10-11T14:03:46.048Z] <<< HTTP RESPONSE 200
+[debug] [2018-10-12T13:10:06.009Z] <<< HTTP RESPONSE 200
 [info] ✔  database: rules syntax for database hiveautomation-c5f65 is valid
-[debug] [2018-10-11T14:03:46.051Z] > [functions] package.json contents: {
+[debug] [2018-10-12T13:10:06.012Z] > [functions] package.json contents: {
   "name": "functions",
   "description": "Cloud Functions for Firebase",
   "scripts": {
@@ -56,37 +56,7 @@
   "private": true
 }
 [info] i  functions: ensuring necessary APIs are enabled...
-[debug] [2018-10-11T14:03:46.052Z] >>> HTTP REQUEST GET https://servicemanagement.googleapis.com/v1/services/cloudfunctions.googleapis.com/projectSettings/hiveautomation-c5f65?view=CONSUMER_VIEW  
+[debug] [2018-10-12T13:10:06.013Z] >>> HTTP REQUEST GET https://servicemanagement.googleapis.com/v1/services/cloudfunctions.googleapis.com/projectSettings/hiveautomation-c5f65?view=CONSUMER_VIEW  
  
-[debug] [2018-10-11T14:03:46.052Z] >>> HTTP REQUEST GET https://servicemanagement.googleapis.com/v1/services/runtimeconfig.googleapis.com/projectSettings/hiveautomation-c5f65?view=CONSUMER_VIEW  
+[debug] [2018-10-12T13:10:06.014Z] >>> HTTP REQUEST GET https://servicemanagement.googleapis.com/v1/services/runtimeconfig.googleapis.com/projectSettings/hiveautomation-c5f65?view=CONSUMER_VIEW  
  
-[debug] [2018-10-11T14:03:47.405Z] <<< HTTP RESPONSE 200
-[debug] [2018-10-11T14:03:47.443Z] <<< HTTP RESPONSE 200
-[info] ✔  functions: all necessary APIs are enabled
-[debug] [2018-10-11T14:03:47.445Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/hiveautomation-c5f65  
- 
-[debug] [2018-10-11T14:03:48.260Z] <<< HTTP RESPONSE 200
-[debug] [2018-10-11T14:03:48.261Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/828985598310:getServerAppConfig  
- 
-[debug] [2018-10-11T14:03:48.483Z] <<< HTTP RESPONSE 200
-[debug] [2018-10-11T14:03:48.485Z] >>> HTTP REQUEST POST https://firebasehosting.googleapis.com/v1beta1/sites/hiveautomation-c5f65/versions  
-
-[debug] [2018-10-11T14:03:49.672Z] <<< HTTP RESPONSE 200
-[info] i  functions: preparing functions directory for uploading...
-[debug] [2018-10-11T14:03:49.675Z] >>> HTTP REQUEST GET https://runtimeconfig.googleapis.com/v1beta1/projects/hiveautomation-c5f65/configs  
- 
-[debug] [2018-10-11T14:03:49.946Z] <<< HTTP RESPONSE 200
-[info] i  functions: packaged functions (57.52 KB) for uploading
-[debug] [2018-10-11T14:03:50.397Z] >>> HTTP REQUEST POST https://cloudfunctions.googleapis.com/v1/projects/hiveautomation-c5f65/locations/us-central1/functions:generateUploadUrl  
- 
-[debug] [2018-10-11T14:03:50.870Z] <<< HTTP RESPONSE 200
-[debug] [2018-10-11T14:03:50.871Z] >>> HTTP REQUEST PUT https://storage.googleapis.com/gcf-upload-us-central1-c8ae9260-09ff-446e-9a1c-eea3aa724acd/8d21e611-0e03-43b2-a449-7c1d427505df.zip?GoogleAccessId=service-828985598310@gcf-admin-robot.iam.gserviceaccount.com&Expires=1539268426&Signature=BjyQa%2FCvn%2BlRgYlcz0PrcpPOwjVhI8ZdjcA6BiovkjYCSd4qHRHdwzaMr8wMflmlJLR23rte5SDWU51TsGmtqcHEufRICYnqkqUtyBERfw%2FE6V9F3tES0XkUF8%2FgYQTsA%2FhfLxTBc0L1sJJ4IKCJ9PDjFQp6InmC4uNp4aaQkDgz8THiQBb%2F%2BsspcHkC1fF8iHvSdJRU5byDvoDaEXT6%2BR20jnchohMbAZKZx2h2Q%2BaBFoFfvSsK6DV4gGrRlE5XB4dRRjXX1O7ceguHDNPXCN3bA%2BnYpMpWOjTURoDiPF%2BZ4Kkvhy3EuBq7CVZwTtmYajFHVYpRYoGOoLm7H7bUyw%3D%3D  
-
-[debug] [2018-10-11T14:03:51.485Z] <<< HTTP RESPONSE 200
-[info] ✔  functions: functions folder uploaded successfully
-[info] i  hosting[hiveautomation-c5f65]: beginning deploy...
-[info] i  hosting[hiveautomation-c5f65]: found 16 files in build
-[debug] [2018-10-11T14:03:52.081Z] [hosting] hash cache [YnVpbGQ] stored for 16 files
-[debug] [2018-10-11T14:03:52.081Z] [hosting][hash queue][FINAL]
-[debug] [2018-10-11T14:03:52.081Z] >>> HTTP REQUEST POST https://firebasehosting.googleapis.com/v1beta1/sites/hiveautomation-c5f65/versions/ae5d4bf1d9e05f3a:populateFiles  
- <request body omitted>
