@@ -3,12 +3,21 @@ import React, { Component } from 'react';
 // import axios from 'axios';
 // import https from 'https';
 import './App.css';
-import { Table, Icon, Button, notification } from 'antd';
+import { Table, Icon, Button, notification, Steps, Popconfirm, message } from 'antd';
+
 import 'antd/dist/antd.css';
 
 import * as firebase from 'firebase';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 
+
+const deleteMessageText = 'Are you sure to delete this Entry?';
+
+function confirm() {
+  message.info('Entry deleted from the Database!');
+}
+
+const Step = Steps.Step;
 const config = {
     apiKey: "AIzaSyCEeSAoo9PfTT1aK4CMgC_rhcCZ6H7HTmM",
     authDomain: "hiveautomation-c5f65.firebaseapp.com",
@@ -50,6 +59,13 @@ class DataTable extends React.Component {
           signInSuccessWithAuthResult: () => false
         }
       },
+      expandedRowRender: (record) => <Steps style={{width: '80%', marginLeft: '10%'}}>
+                                      <Step status="finish" title="Registered" icon={<Icon type="user" />} />
+                                      <Step status="finish" title="Approved" icon={<Icon type="solution" />} />
+                                      <Step status="process" title="Pay" icon={<Icon type="loading" />} />
+                                      <Step status="wait" title="Verified" icon={<Icon type="database" />} />
+                                      <Step status="wait" title="Done" icon={<Icon type="smile-o" />} />
+                                    </Steps>,
       isSignedIn: false,
       bordered: true,
       pagination: false,
@@ -153,10 +169,19 @@ class DataTable extends React.Component {
         width: 50,
         render: (text, record) => (
           <span>
-            <Button type="danger" shape="circle" icon="delete" onClick={(e)=>{
-                let selectedEmail = e.target.parentElement.parentElement.parentElement.children[2].textContent;
-                this.delete(selectedEmail)
-              }}/>
+              <Popconfirm 
+                placement="left" 
+                title={deleteMessageText} 
+                onConfirm={
+                  ()=>{
+                    this.delete(record.email);
+                    confirm();
+                  }
+                } 
+                okText="Yes" 
+                cancelText="No">
+                <Button type="danger" shape="circle" icon="delete"/>
+              </Popconfirm>
           </span>
         ),
       }],
@@ -299,8 +324,9 @@ class DataTable extends React.Component {
 
     return (
       <div>
-        <Table {...this.state} columns={this.state.columns} scroll={{ y: '90vh' }} dataSource={state.hasData ? this.state.data : null} />
+        <Table {...this.state} columns={this.state.columns} scroll={{ y: '86vh' }} dataSource={state.hasData ? this.state.data : null}   />
         <Button type="danger" id="firebaseui-auth-container" onClick={() => firebase.auth().signOut()}>Sign-out</Button>
+        <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
         <form action="https://us-central1-hiveautomation-c5f65.cloudfunctions.net/addData" target="https://www.google.com">
           name: <input type="text" name="name" required/><br/>
           email: <input type="text" name="email" required/><br/>
