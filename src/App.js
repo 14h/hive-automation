@@ -11,7 +11,7 @@ import * as firebase from 'firebase';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 
 
-const deleteMessageText = 'Are you sure to delete this Entry?';
+
 
 function confirm() {
   message.info('Entry deleted from the Database!');
@@ -161,17 +161,26 @@ class DataTable extends React.Component {
             <Button>Approve</Button>
         ),
       }, {
-        title: <Button type="danger" shape="circle" icon="delete" onClick={()=>{
-                  this.state.selectedRows.forEach(selectedEmail=>this.delete(selectedEmail))
-                  
-                }}/>,
+        title: <Popconfirm 
+                placement="left" 
+                title='You are attempting to delete more than one Entry, are you sure you want to do this!!!'
+                onConfirm={
+                  ()=>{
+                    this.state.selectedRows.forEach(selectedEmail=>this.delete(selectedEmail));
+                    confirm();
+                  }
+                } 
+                okText="Yes" 
+                cancelText="No">
+                <Button type="danger" shape="circle" icon="delete"/>
+              </Popconfirm>,
         key: 'action3',
         width: 50,
         render: (text, record) => (
           <span>
               <Popconfirm 
                 placement="left" 
-                title={deleteMessageText} 
+                title='Are you sure to delete this Entry?' 
                 onConfirm={
                   ()=>{
                     this.delete(record.email);
