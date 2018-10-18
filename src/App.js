@@ -24,7 +24,19 @@ const config = {
     databaseURL: "https://hiveautomation-c5f65.firebaseio.com",
     projectId: "hiveautomation-c5f65",
     storageBucket: "hiveautomation-c5f65.appspot.com",
-    messagingSenderId: "828985598310"
+    messagingSenderId: "828985598310",
+
+    clientId: "1052428497950-9dl0qir4pr98nhlh56h4prpiluv953qk.apps.googleusercontent.com",
+
+    scopes: [
+      "email",
+      "profile",
+      "https://www.googleapis.com/auth/gmail.compose",
+      "https://www.googleapis.com/auth/gmail.send"
+    ],
+    discoveryDocs: [
+      "https://www.googleapis.com/discovery/v1/apis/gmail/v1/rest"
+      ]
 };
 
 if (!firebase.apps.length) {
@@ -50,10 +62,11 @@ class DataTable extends React.Component {
         // Popup signin flow rather than redirect flow.
         signInFlow: 'popup',
         // We will display Google and Facebook as auth providers.
-        signInOptions: [
-          firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+        signInOptions: [{
+          provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+          scopes: config.scopes
           // firebase.auth.FacebookAuthProvider.PROVIDER_ID
-        ],
+        }],
         callbacks: {
           // Avoid redirects after sign-in.
           signInSuccessWithAuthResult: () => false
@@ -154,11 +167,16 @@ class DataTable extends React.Component {
             </div>
         ),
       }, {
-        title: <Button>Approve</Button>,
+        title: <Button onClick={()=>{
+          this.state.selectedRows.forEach(selectedEmail=>this.approve(selectedEmail, firebase.auth().currentUser.email))
+        }}>Approve</Button>,
         key: 'action2',
         width: 70,
         render: (text, record) => (
-            <Button>Approve</Button>
+            <Button onClick={()=>{
+              this.approve(record.email, firebase.auth().currentUser.email)
+              
+            }}>Approve</Button>
         ),
       }, {
         title: <Button type="danger" shape="circle" icon="delete" onClick={()=>{
@@ -238,9 +256,24 @@ class DataTable extends React.Component {
     }
 
 
-
-
-
+  approve(email, user){
+    console.log("approving " + email);
+    
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "http://localhost:5001/hiveautomation-c5f65/us-central1/approveRequest?email="+email+"&user="+user);
+    xhr.responseType = 'json';
+    xhr.onload = () => {
+      var status = xhr.status;
+      if (status === 200) {
+        console.log("the response is");
+        console.log(xhr.response);
+      } else {
+        console.log("failed");
+        console.log(xhr.status);
+      }
+    }
+    xhr.send();
+  }
 
 
   delete(email){
@@ -281,10 +314,43 @@ class DataTable extends React.Component {
       });
   }
   unregisterAuthObserver(){
-    firebase.auth().onAuthStateChanged(
-      (user) => this.setState({isSignedIn: !!user})
-    );
+    firebase.auth().onAuthStateChanged(function(user){
+
+/*      // Make sure there is a valid user object
+        if (user) {
+          var script = document.createElement("script");
+          script.type = "text/javascript";
+          script.src = "https://apis.google.com/js/api.js";
+          // Once the Google API Client is loaded, you can run your code
+          script.onload = function(e) {
+            // Initialize the Google API Client with the config object
+            gapi.client.init({
+              apiKey: config.apiKey,
+              clientId: config.clientID,
+              discoveryDocs: config.discoveryDocs,
+              scope: config.scopes.join(" ")
+            });
+          };
+          // Add to the document
+          document.getElementsByTagName("head")[0].appendChild(script);
+        }
+        */
+        this.setState({isSignedIn: !!user});
+    });
   } 
+/* 
+              // Loading is finished, so start the app
+              .then(function() {
+                // Make sure the Google API Client is properly signed in
+                if (gapi.auth2.getAuthInstance().isSignedIn.get()) {
+                  startApp(user);
+                } else {
+                  firebase.auth().signOut(); // Something went wrong, sign out
+                }
+              });
+               */
+
+
   // Listen to the Firebase Auth state and set the local state.
   componentDidMount() {
     this.unregisterAuthObserver = firebase.auth().onAuthStateChanged(
@@ -299,8 +365,13 @@ class DataTable extends React.Component {
 
   render() {
     const state = this.state;
-    if(firebase.auth().currentUser)
-    console.log(firebase.auth().currentUser.email)
+    if(firebase.auth().currentUser){
+      console.log(firebase.auth().currentUser.email);
+      // console.log(firebase.auth().currentUser);
+      // firebase.auth().currentUser.getToken().then(function(token) {
+      //   console.log(token);
+      // });
+    }
     if (!this.state.isSignedIn) {
       return (
         <div id="firebaseui-auth-container">
@@ -321,6 +392,7 @@ class DataTable extends React.Component {
         <div/>
       );
     }
+
 
     return (
       <div>
