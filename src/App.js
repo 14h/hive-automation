@@ -3,13 +3,14 @@ import React from 'react';
 // import axios from 'axios';
 // import https from 'https';
 import './App.css';
-import { Table, Icon, Button, notification, Steps, Popconfirm, message } from 'antd';
+import { Table, Icon, Button, notification, Steps, Popconfirm, message, Modal, Input} from 'antd';
+
 
 import 'antd/dist/antd.css';
 
 import * as firebase from 'firebase';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
-
+const { TextArea } = Input;
 //const gapi = require('gapi');
 
 
@@ -49,6 +50,9 @@ export default class DataTable extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      modalVisible: false,
+      selectedEmail:'',
+      emailContent:"This is an automated mail from TheDive Hive. Thanks for willing to be a part of the TheDive Hive Community",
       uiConfig : {
         // Popup signin flow rather than redirect flow.
         signInFlow: 'popup',
@@ -159,7 +163,8 @@ export default class DataTable extends React.Component {
         render: (text, record) => (
             <Button onClick={()=>{
               // this.approve(record.email, firebase.auth().currentUser.email)
-              this.sendEmail(record.email,"THEDIVE HIVE COMMUNITY", "EMAIL BODY")
+              // this.sendEmail(record.email,"THEDIVE HIVE COMMUNITY", "EMAIL BODY")
+              this.showModal(record.email)
             }}>Approve</Button>
         ),
       }, {
@@ -200,6 +205,28 @@ export default class DataTable extends React.Component {
     
     this.getJSONData = this.getJSONData.bind(this);
     this.unregisterAuthObserver = this.unregisterAuthObserver.bind(this);
+  }
+
+  showModal = (email) => {
+    this.setState({
+      modalVisible: true,
+      selectedEmail: email
+    });
+  }
+
+  handleOk = (e) => {
+    console.log(e);
+    this.sendEmail(this.state.selectedEmail,"TheDive Hive Community", this.state.emailContent);
+    this.setState({
+      modalVisible: false,
+    });
+  }
+
+  handleCancel = (e) => {
+    console.log(e);
+    this.setState({
+      modalVisible: false,
+    });
   }
   
   getJSONData(){
@@ -306,7 +333,7 @@ export default class DataTable extends React.Component {
         "kawji@thedive.com",
         "e30b528c-6007-41d1-923f-5530475d01b3",
         ()=>{  
-          message.info('Email sent');
+          message.info('Email sent to '+ to);
           database.ref('/'  + to.replace(/[^a-zA-Z ]/g, "") + '/approved/' ).set(true).then((res) => {
               message.info('database updated');
               return 0;
@@ -367,11 +394,23 @@ export default class DataTable extends React.Component {
         <div/>
       );
     }
-
-
     return (
       <div>
         <Table {...this.state} columns={this.state.columns} scroll={{ y: '86vh' }} dataSource={state.hasData ? this.state.data : null}   />
+        <Modal
+          title={this.state.selectedEmail}
+          visible={this.state.modalVisible}
+          onOk={this.handleOk}
+          onCancel={this.handleCancel}
+          footer={[
+            <Button key="back" onClick={this.handleCancel}>Return</Button>,
+            <Button key="submit" type="primary"  onClick={this.handleOk}>
+              Send Email
+            </Button>,
+          ]}
+        >
+          <TextArea rows={4} value={this.state.emailContent} onChange={(e)=>{this.setState({emailContent:e.target.value})}}/>
+        </Modal>
         <Button type="danger" id="firebaseui-auth-container" onClick={() => firebase.auth().signOut()}>Sign-out</Button>
         <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
         <form action="https://us-central1-hiveautomation-c5f65.cloudfunctions.net/addData" target="https://www.google.com">
