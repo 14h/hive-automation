@@ -1,0 +1,76 @@
+[debug] [2018-10-18T08:05:06.703Z] ----------------------------------------------------------------------
+[debug] [2018-10-18T08:05:06.715Z] Command:       /usr/local/Cellar/node/10.11.0/bin/node /usr/local/bin/firebase serve
+[debug] [2018-10-18T08:05:06.716Z] CLI Version:   5.0.1
+[debug] [2018-10-18T08:05:06.716Z] Platform:      darwin
+[debug] [2018-10-18T08:05:06.716Z] Node Version:  v10.12.0
+[debug] [2018-10-18T08:05:06.717Z] Time:          Thu Oct 18 2018 10:05:06 GMT+0200 (Central European Summer Time)
+[debug] [2018-10-18T08:05:06.717Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-10-18T08:05:06.747Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-10-18T08:05:06.747Z] > authorizing via signed-in user
+[debug] [2018-10-18T08:05:06.748Z] [iam] checking project hiveautomation-c5f65 for permissions ["firebase.projects.get"]
+[debug] [2018-10-18T08:05:06.762Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/hiveautomation-c5f65:testIamPermissions  
+
+[debug] [2018-10-18T08:05:07.846Z] <<< HTTP RESPONSE 200
+[debug] [2018-10-18T08:05:07.847Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/hiveautomation-c5f65  
+ 
+[debug] [2018-10-18T08:05:08.709Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from '/Users/em/Projects/TheDive/hive-automation'...
+[info] 
+[info] i  functions: Preparing to emulate functions.
+[debug] [2018-10-18T08:05:10.003Z] Fetching environment
+[debug] [2018-10-18T08:05:10.015Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/828985598310:getServerAppConfig  
+ 
+[debug] [2018-10-18T08:05:10.016Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/828985598310/clients/_:getWebAppConfig  
+ 
+[debug] [2018-10-18T08:05:10.280Z] <<< HTTP RESPONSE 200
+[debug] [2018-10-18T08:05:10.281Z] Starting @google-cloud/functions-emulator
+[debug] [2018-10-18T08:05:10.348Z] <<< HTTP RESPONSE 200
+[info] i  hosting: Serving hosting files from: build
+[info] ✔  hosting: Local server: http://localhost:5000
+[debug] [2018-10-18T08:05:13.381Z] Parsing function triggers
+[info] ✔  functions: removeData: http://localhost:5001/hiveautomation-c5f65/us-central1/removeData
+[info] ✔  functions: addData: http://localhost:5001/hiveautomation-c5f65/us-central1/addData
+[info] ✔  functions: getAll: http://localhost:5001/hiveautomation-c5f65/us-central1/getAll
+[info] ✔  functions: approveRequest: http://localhost:5001/hiveautomation-c5f65/us-central1/approveRequest
+[debug] [2018-10-23T13:57:56.820Z] ----------------------------------------------------------------------
+[debug] [2018-10-23T13:57:56.822Z] Command:       /usr/local/Cellar/node/10.11.0/bin/node /usr/local/bin/firebase serve
+[debug] [2018-10-23T13:57:56.822Z] CLI Version:   5.0.1
+[debug] [2018-10-23T13:57:56.822Z] Platform:      darwin
+[debug] [2018-10-23T13:57:56.822Z] Node Version:  v10.12.0
+[debug] [2018-10-23T13:57:56.826Z] Time:          Tue Oct 23 2018 15:57:56 GMT+0200 (Central European Summer Time)
+[debug] [2018-10-23T13:57:56.826Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-10-23T13:57:56.840Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-10-23T13:57:56.840Z] > authorizing via signed-in user
+[debug] [2018-10-23T13:57:56.840Z] [iam] checking project hiveautomation-c5f65 for permissions ["firebase.projects.get"]
+[debug] [2018-10-23T13:57:56.842Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2018-10-23T13:57:56.842Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2018-10-23T13:57:57.050Z] <<< HTTP RESPONSE 200
+[debug] [2018-10-23T13:57:57.064Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/hiveautomation-c5f65:testIamPermissions  
+
+[debug] [2018-10-23T13:57:57.905Z] <<< HTTP RESPONSE 200
+[debug] [2018-10-23T13:57:57.906Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/hiveautomation-c5f65  
+ 
+[debug] [2018-10-23T13:57:58.716Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from '/Users/em/Projects/TheDive/hive-automation'...
+[info] 
+[info] i  functions: Preparing to emulate functions.
+[debug] [2018-10-23T13:57:59.390Z] Fetching environment
+[debug] [2018-10-23T13:57:59.392Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/828985598310:getServerAppConfig  
+ 
+[debug] [2018-10-23T13:57:59.393Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/828985598310/clients/_:getWebAppConfig  
+ 
+[debug] [2018-10-23T13:57:59.700Z] <<< HTTP RESPONSE 200
+[debug] [2018-10-23T13:57:59.701Z] Starting @google-cloud/functions-emulator
+[debug] [2018-10-23T13:57:59.839Z] <<< HTTP RESPONSE 200
+[info] i  hosting: Serving hosting files from: build
+[info] ✔  hosting: Local server: http://localhost:5000
+[debug] [2018-10-23T13:58:01.260Z] Parsing function triggers
+[info] ✔  functions: removeData: http://localhost:5001/hiveautomation-c5f65/us-central1/removeData
+[info] ✔  functions: addData: http://localhost:5001/hiveautomation-c5f65/us-central1/addData
+[info] ✔  functions: approveRequest: http://localhost:5001/hiveautomation-c5f65/us-central1/approveRequest
+[info] ✔  functions: getAll: http://localhost:5001/hiveautomation-c5f65/us-central1/getAll

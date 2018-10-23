@@ -2,6 +2,7 @@
 
 const firebase = require('firebase');
 const functions = require('firebase-functions');
+//const gapi = require('gapi');
 
 const config = {
     apiKey: "AIzaSyCEeSAoo9PfTT1aK4CMgC_rhcCZ6H7HTmM",
@@ -19,22 +20,6 @@ if (!firebase.apps.length) {
 
 const database = firebase.database();
 
-function writeData(name, email,why1, why2) {
-    database.ref('/'  + email + '/' ).set({
-        name:   name,
-        email:  email,
-        why1:   why1,
-        why2:   why2,
-
-    }).then((res) => {
-        console.log('success');
-        return 0;
-
-    }).catch((err) => {
-        console.log(err);
-        // event.preventDefault();
-    });
-}
 
     
 function getAll(){
@@ -102,3 +87,45 @@ exports.getAll = functions.https.onRequest((request, response) => {
      });
 });
 
+exports.approveRequest = functions.https.onRequest((request, response) => {
+    const email = request.query.email || 'default mail',
+          user = request.query.user;
+
+    response.setHeader("Access-Control-Allow-Origin", '*');
+    response.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
+    response.setHeader('Access-Control-Allow-Headers', 'Content-Type,Accept');
+    response.header("Access-Control-Allow-Origin", '*');
+    response.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
+    response.header('Access-Control-Allow-Headers', 'Content-Type,Accept');
+
+    // sent invitation mail
+    // var xhr = new XMLHttpRequest();
+    // xhr.open("GET", "https://www.googleapis.com/gmail/v1/users/"+user+"/drafts");
+    // xhr.responseType = 'json';
+    // xhr.onload = () => {
+    //   var status = xhr.status;
+    //   if (status === 200) {
+    //     console.log("the response is");
+    //     console.log(xhr.response);
+    //   } else {
+    //     console.log("failed");
+    //     console.log(xhr.status);
+    //   }
+    // }
+    // xhr.send();
+
+ //   function listDrafts(userId, callback) {
+        var re = gapi.client.gmail.users.drafts.list({
+          'userId': userId
+        });
+ //       console.log("1");
+        re.execute((resp) => {
+          var drafts = resp.drafts;
+//          callback(drafts);
+          response.send(drafts);
+        });
+  //    }
+
+    response.send({"email": email, "user": user});
+    return email;
+});

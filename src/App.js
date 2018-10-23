@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 // import axios from 'axios';
 // import https from 'https';
@@ -10,7 +10,7 @@ import 'antd/dist/antd.css';
 import * as firebase from 'firebase';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 
-
+//const gapi = require('gapi');
 
 
 function confirm() {
@@ -24,25 +24,28 @@ const config = {
     databaseURL: "https://hiveautomation-c5f65.firebaseio.com",
     projectId: "hiveautomation-c5f65",
     storageBucket: "hiveautomation-c5f65.appspot.com",
-    messagingSenderId: "828985598310"
-};
+    messagingSenderId: "828985598310",
 
+    // clientId: "1052428497950-sap7htqn10i3dd90npfvmlt7bmdi6qsg.apps.googleusercontent.com",
+    // lzumNNgPHT_kwTadXsP5Q3HM
+    clientId: "828985598310-i29pqh0hc08bitv4icrnb8q2n8ihs34c.apps.googleusercontent.com",
+    // gymnIPbSPiqgBXY3iW5d8sEv
+    scopes: [
+      "email",
+      "profile",
+      "https://www.googleapis.com/auth/gmail.compose",
+      "https://www.googleapis.com/auth/gmail.send",
+    ],
+    discoveryDocs: [
+      "https://www.googleapis.com/discovery/v1/apis/gmail/v1/rest"
+    ]
+};
 if (!firebase.apps.length) {
   firebase.initializeApp(config);
 }
+const database = firebase.database();
 
-// const auth = firebase.auth();
-
-
-// const expandedRowRender = record => <p>{record.why2}</p>;
-// const title = () => 'Here is title';
-const showHeader = true;
-// const footer = () => 'Here is footer';
-// const scroll = { y: 240 };
-// const pagination = { position: 'bottom' };
-
-
-class DataTable extends React.Component {
+export default class DataTable extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -50,28 +53,49 @@ class DataTable extends React.Component {
         // Popup signin flow rather than redirect flow.
         signInFlow: 'popup',
         // We will display Google and Facebook as auth providers.
-        signInOptions: [
-          firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+        signInOptions: [{
+          provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+          scopes: config.scopes
           // firebase.auth.FacebookAuthProvider.PROVIDER_ID
-        ],
+        }],
         callbacks: {
           // Avoid redirects after sign-in.
           signInSuccessWithAuthResult: () => false
         }
       },
-      expandedRowRender: (record) => <Steps style={{width: '80%', marginLeft: '10%'}}>
-                                      <Step status="finish" title="Registered" icon={<Icon type="user" />} />
-                                      <Step status="finish" title="Approved" icon={<Icon type="solution" />} />
-                                      <Step status="process" title="Pay" icon={<Icon type="loading" />} />
-                                      <Step status="wait" title="Verified" icon={<Icon type="database" />} />
-                                      <Step status="wait" title="Done" icon={<Icon type="smile-o" />} />
-                                    </Steps>,
+      expandedRowRender: (record) =>{
+        if(false){
+          return <Steps style={{width: '80%', marginLeft: '10%'}}>
+                    <Step status="finish" title="Registered" icon={<Icon type="user" />} />
+                    <Step status="finish" title="Approved" icon={<Icon type="solution" />} />
+                    <Step status="finish" title="Pay" icon={<Icon type="euro" />} />
+                    <Step status="process" title="Verified" icon={<Icon type="database" />} />
+                    <Step status="wait" title="Done" icon={<Icon type="smile-o" />} />
+                  </Steps>
+        }
+        if(record.approved){
+          return <Steps style={{width: '80%', marginLeft: '10%'}}>
+                <Step status="finish" title="Registered" icon={<Icon type="user" />} />
+                <Step status="finish" title="Approved" icon={<Icon type="solution" />} />
+                <Step status="process" title="Pay" icon={<Icon type="loading" />} />
+                <Step status="wait" title="Verified" icon={<Icon type="database" />} />
+                <Step status="wait" title="Done" icon={<Icon type="smile-o" />} />
+              </Steps>
+        }
+        return <Steps style={{width: '80%', marginLeft: '10%'}}>
+                <Step status="finish" title="Registered" icon={<Icon type="user" />} />
+                <Step status="process" title="Approved" icon={<Icon type="loading" />} />
+                <Step status="wait" title="Pay" icon={<Icon type="euro" />} />
+                <Step status="wait" title="Verified" icon={<Icon type="database" />} />
+                <Step status="wait" title="Done" icon={<Icon type="smile-o" />} />
+              </Steps>
+      },
       isSignedIn: false,
       bordered: true,
       pagination: false,
       size: 'default',
       title: undefined,
-      showHeader,
+      showHeader: true,
       selectedRows:[],
       rowSelection: {
         onChange: (selectedRowKeys, selectedRows) => {
@@ -86,41 +110,12 @@ class DataTable extends React.Component {
       scroll: undefined,
       hasData: true,
       data : [
-        {
-          key:    0,
-          name:   '',
-          email:  '',
-          why1:   '',
-          why2:   ''
-        },
-        {
-          key:    1,
-          name:   '',
-          email:  '',
-          why1:   '',
-          why2:   ''
-        },
-        {
-          key:    2,
-          name:   '',
-          email:  '',
-          why1:   '',
-          why2:   ''
-        },
-        {
-          key:    3,
-          name:   '',
-          email:  '',
-          why1:   '',
-          why2:   ''
-        },
-        {
-          key:    4,
-          name:   '',
-          email:  '',
-          why1:   '',
-          why2:   ''
-        },
+        {key:0,name:'',email:'',why1:'',why2:''},
+        {key:1,name:'',email:'',why1:'',why2:''},
+        {key:2,name:'',email:'',why1:'',why2:''},
+        {key:3,name:'',email:'',why1:'',why2:''},
+        {key:4,name:'',email:'',why1:'',why2:''},
+        
       ],
       loading: true,
       columns : [{
@@ -149,16 +144,23 @@ class DataTable extends React.Component {
         key: 'action1',
         width: 70,
         render: (text, record) => (
+          
             <div>
-              <Icon type="check-circle" theme="outlined"  style={{ fontSize: '25px', color: record.done?'#1aa85a':'#EEE' }}  /> 
+              {console.log(record)}
+              <Icon type="check-circle" theme="outlined"  style={{ fontSize: '25px', color: record.approved?'#1aa85a':'#EEE' }}  /> 
             </div>
         ),
       }, {
-        title: <Button>Approve</Button>,
+        title: <Button onClick={()=>{
+          this.state.selectedRows.forEach(selectedEmail=>this.approve(selectedEmail, firebase.auth().currentUser.email))
+        }}>Approve</Button>,
         key: 'action2',
         width: 70,
         render: (text, record) => (
-            <Button>Approve</Button>
+            <Button onClick={()=>{
+              // this.approve(record.email, firebase.auth().currentUser.email)
+              this.sendEmail(record.email,"THEDIVE HIVE COMMUNITY", "EMAIL BODY")
+            }}>Approve</Button>
         ),
       }, {
         title: <Popconfirm 
@@ -200,58 +202,56 @@ class DataTable extends React.Component {
     this.unregisterAuthObserver = this.unregisterAuthObserver.bind(this);
   }
   
-  
-
-
-
   getJSONData(){
-
-
     let currentComponent = this;
-    if(currentComponent.state.data[0].name.length < 1){
-      var getJSON = function(url, callback) {
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', url);
-        // xhr.setRequestHeader('Access-Control-Allow-Headers', 'true')
-        // xhr.setRequestHeader('Access-Control-Allow-Origin', 'true')
-        xhr.responseType = 'json';
-        xhr.onload = function() {
-          var status = xhr.status;
-          if (status === 200) {
-            callback(null, xhr.response);
-          } else {
-            callback(status, xhr.response);
-          }
-        };
-        xhr.send();
-      };
+    database.ref('/' ).once('value').then((snapshot)=>{
+      let dataArray = Object.values(snapshot.val());
+      dataArray.map((entry,i)=>{
+        entry.key = i;
+        return entry;
+      })
+      currentComponent.setState({
+        data: dataArray,
+        loading: false
+      })
+      return snapshot.val();
+   }).catch((err)=>{
+      console.log(err);
+   });
+    // if(currentComponent.state.data[0].name.length < 1){
+    //   var getJSON = function(url, callback) {
+    //     var xhr = new XMLHttpRequest();
+    //     xhr.open('GET', url);
+    //     xhr.responseType = 'json';
+    //     xhr.onload = function() {
+    //       var status = xhr.status;
+    //       if (status === 200) {
+    //         callback(null, xhr.response);
+    //       } else {
+    //         callback(status, xhr.response);
+    //       }
+    //     };
+    //     xhr.send();
+    // };
 
-      getJSON('https://us-central1-hiveautomation-c5f65.cloudfunctions.net/getAll',
-        function(err, data) {
-          if (err !== null) {
-            alert('Something went wrong: ' + err);
-          } else {
-            console.log( Object.values(data))
-            let dataArray = Object.values(data);
-            dataArray.map((entry,i)=>{
-              entry.key = i;
-              return entry;
-            })
-            currentComponent.setState({
-              data: dataArray,
-              loading: false
-            })
-          }
-        });
-      }
-    }
-
-
-
-
-
-
-
+    // getJSON('https://us-central1-hiveautomation-c5f65.cloudfunctions.net/getAll',
+    //   function(err, data) {
+    //     if (err !== null) {
+    //       alert('Something went wrong: ' + err);
+    //     } else {
+    //       let dataArray = Object.values(data);
+    //       dataArray.map((entry,i)=>{
+    //         entry.key = i;
+    //         return entry;
+    //       })
+    //       currentComponent.setState({
+    //         data: dataArray,
+    //         loading: false
+    //       })
+    //     }
+    //   });
+    // }
+  }
   delete(email){
     let currentComponent = this;
     currentComponent.setState({
@@ -279,7 +279,6 @@ class DataTable extends React.Component {
         if (err !== null) {
           alert('Something went wrong: ' + err);
         } else {
-          console.log(email)
           currentComponent.setState((state) => {
             return {
               data: state.data.filter(entry => entry.email !== email),
@@ -290,14 +289,54 @@ class DataTable extends React.Component {
       });
   }
   unregisterAuthObserver(){
-    firebase.auth().onAuthStateChanged(
-      (user) => this.setState({isSignedIn: !!user})
-    );
+    let currentComponent = this;
+    firebase.auth().onAuthStateChanged(function(user){
+        currentComponent.setState({isSignedIn: !!user});
+    });
   } 
-  // Listen to the Firebase Auth state and set the local state.
+  
+  sendEmail(to, subject, body){
+    if(window.Email){
+      window.Email.send(
+        "kawji@thedive.com",
+        to,
+        subject,
+        body,
+        "smtp.elasticemail.com",
+        "kawji@thedive.com",
+        "e30b528c-6007-41d1-923f-5530475d01b3",
+        ()=>{  
+          message.info('Email sent');
+          database.ref('/'  + to.replace(/[^a-zA-Z ]/g, "") + '/approved/' ).set(true).then((res) => {
+              message.info('database updated');
+              return 0;
+            }).catch((err) => {
+              console.log(err)
+            });
+            this.getJSONData();
+
+         });
+
+    }else{
+      message.error('try again!')
+    }
+  }
   componentDidMount() {
+    var smtp = document.createElement("script");
+    smtp.type = "text/javascript";
+    smtp.src = "https://smtpjs.com/v2/smtp.js";
+    // Once the Google API Client is loaded, you can run your code
+    smtp.onload = function(e) {
+
+      console.log('smtp loaded')
+    };
+    // Add to the document
+    document.getElementsByTagName("head")[0].appendChild(smtp);
+    // let currentComponent = this;
     this.unregisterAuthObserver = firebase.auth().onAuthStateChanged(
-        (user) => this.setState({isSignedIn: !!user})
+        (user) => {
+          this.setState({isSignedIn: !!user})
+        }
     );
   }
   componentWillMount(){
@@ -308,13 +347,11 @@ class DataTable extends React.Component {
 
   render() {
     const state = this.state;
-    if(firebase.auth().currentUser)
-    console.log(firebase.auth().currentUser.email)
+    if(firebase.auth().currentUser){
+    }
     if (!this.state.isSignedIn) {
       return (
         <div id="firebaseui-auth-container">
-          {/* <h1>My App</h1>
-          <p>Please sign-in:</p> */}
           <StyledFirebaseAuth uiConfig={this.state.uiConfig} firebaseAuth={firebase.auth()}/>
         </div>
       );
@@ -330,6 +367,7 @@ class DataTable extends React.Component {
         <div/>
       );
     }
+
 
     return (
       <div>
@@ -348,17 +386,110 @@ class DataTable extends React.Component {
   }
 }
 
+// // Listen to the Firebase Auth state and set the local state.
+// send() {
+//   const script = document.createElement("script");
+//   script.src = "https://apis.google.com/js/client.js";
+//   script.onload = () => {
+//     window.gapi.load('client', () => {
+//       window.gapi.client.setApiKey(config.apiKey);
+//       window.gapi.client.load('gmail', 'v1', () => {
+//         // console.log(window.gapi.client.gmail.users)
+//         var request = window.gapi.client.gmail.users.drafts.create({
+//           // userId: config.userId
+//           userId: "kawji@thedive.com"
+//         });
+//         request.execute((data)=>{
+//           // console.log(data)
+//         }); 
+//       });
+//     });
+//   };
+//   document.body.appendChild(script);
+// }
 
-class App extends Component {
-  
-  render() {
-    return (
-      <div className="App">
-        <DataTable />
+
+
+
+// onAuthStateChanged
+    // Make sure there is a valid user object
+    // if (user) {
+    //   var script = document.createElement("script");
+    //   script.type = "text/javascript";
+    //   script.src = "https://apis.google.com/js/api.js";
+    //   // Once the Google API Client is loaded, you can run your code
+    //   script.onload = function(e) {
+    //     // Initialize the Google API Client with the config object
+    //     window.gapi.load('client', () => {
+    //       window.gapi.client.init({
+    //         apiKey: config.apiKey,
+    //         clientId: config.clientId,
+    //         discoveryDocs: config.discoveryDocs,
+    //         scope: config.scopes.join(" ")
+    //       }).then(e=>{
+    //         currentComponent.startApp(user);
+            
+    //       }).catch(err=>console.log(err))
+    //     });
+    //   };
+    //   // Add to the document
+    //   document.getElementsByTagName("head")[0].appendChild(script);
+    // }
+
+
+
+
+
+    // startApp(user){
+    //   console.log(user)
+      
+    //   firebase.auth().currentUser.getIdToken()
+    //   .then(function(token) {
+    //     window.gapi.client.setToken({
+    //       'access_token': token
+    //     })
+    //     // return window.gapi.client.calendar.events.list({
+    //     // calendarId: "primary",
+    //     // timeMin: new Date().toISOString(),
+    //     // showDeleted: false,
+    //     // singleEvents: true,
+    //     // maxResults: 10,
+    //     // orderBy: "startTime"
+    //     // })  
+    //   })
+    //   .then(function(response) {
+    //     window.gapi.auth2.getAuthInstance().signIn().then(()=>{
+    //       let request = window.gapi.client.gmail.users.drafts.create({
+    //         // 'userId': config.userId,
+    //         'userId': user.uid,
+    //         'resource': {
+    //           'message': {
+    //             'raw': "base64EncodedEmail"
+    //           }
+    //         }
+    //       });
+    //       request.execute(e=>console.log(e)); 
+    //     })
         
-      </div>
-    );
-  }
-}
+    //   });
+      
+    // }
 
-export default App;
+
+
+    // approve(email, user){
+    //   var xhr = new XMLHttpRequest();
+    //   xhr.open("GET", "http://localhost:5001/hiveautomation-c5f65/us-central1/approveRequest?email="+email+"&user="+user);
+    //   xhr.responseType = 'json';
+    //   xhr.onload = () => {
+    //     var status = xhr.status;
+    //     if (status === 200) {
+    //       // console.log("the response is");
+    //       // console.log(xhr.response);
+    //     } else {
+    //       // console.log("failed");
+    //       // console.log(xhr.status);
+    //     }
+    //   }
+    //   xhr.send();
+    // }

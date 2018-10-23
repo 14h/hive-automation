@@ -3,9 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "antd": "^3.10.0",
+    "antd": "^3.10.1",
     "axios": "^0.18.0",
     "firebase": "^5.5.4",
+    "firebase-tools": "^5.1.1",
     "firebaseui": "^3.4.1",
     "https": "^1.0.0",
     "react": "^16.5.2",
