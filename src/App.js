@@ -26,7 +26,8 @@ const config = {
     storageBucket: "hiveautomation-c5f65.appspot.com",
     messagingSenderId: "828985598310",
 
-    clientId: "1052428497950-9dl0qir4pr98nhlh56h4prpiluv953qk.apps.googleusercontent.com",
+    clientId: "1052428497950-sap7htqn10i3dd90npfvmlt7bmdi6qsg.apps.googleusercontent.com",
+    // lzumNNgPHT_kwTadXsP5Q3HM
 
     scopes: [
       "email",
@@ -36,7 +37,7 @@ const config = {
     ],
     discoveryDocs: [
       "https://www.googleapis.com/discovery/v1/apis/gmail/v1/rest"
-      ]
+    ]
 };
 
 if (!firebase.apps.length) {
@@ -315,26 +316,7 @@ class DataTable extends React.Component {
   }
   unregisterAuthObserver(){
     firebase.auth().onAuthStateChanged(function(user){
-
-/*      // Make sure there is a valid user object
-        if (user) {
-          var script = document.createElement("script");
-          script.type = "text/javascript";
-          script.src = "https://apis.google.com/js/api.js";
-          // Once the Google API Client is loaded, you can run your code
-          script.onload = function(e) {
-            // Initialize the Google API Client with the config object
-            gapi.client.init({
-              apiKey: config.apiKey,
-              clientId: config.clientID,
-              discoveryDocs: config.discoveryDocs,
-              scope: config.scopes.join(" ")
-            });
-          };
-          // Add to the document
-          document.getElementsByTagName("head")[0].appendChild(script);
-        }
-        */
+        
         this.setState({isSignedIn: !!user});
     });
   } 
@@ -352,10 +334,100 @@ class DataTable extends React.Component {
 
 
   // Listen to the Firebase Auth state and set the local state.
+  send() {
+    const script = document.createElement("script");
+    script.src = "https://apis.google.com/js/client.js";
+    script.onload = () => {
+      window.gapi.load('client', () => {
+        window.gapi.client.setApiKey(config.apiKey);
+        window.gapi.client.load('gmail', 'v1', () => {
+          console.log(window.gapi.client.gmail.users)
+          var request = window.gapi.client.gmail.users.drafts.create({
+            userId: config.userId
+          });
+          request.execute((data)=>{
+            console.log(data)
+          }); 
+        });
+      });
+    };
+    document.body.appendChild(script);
+  }
+  startApp(user){
+    firebase.auth().currentUser.getToken()
+    .then(function(token) {
+      return window.gapi.client.calendar.events.list({
+      calendarId: "primary",
+      timeMin: new Date().toISOString(),
+      showDeleted: false,
+      singleEvents: true,
+      maxResults: 10,
+      orderBy: "startTime"
+      })  
+    })
+    .then(function(response) {
+      console.log(response);  
+    });
+    let request = window.gapi.client.gmail.users.drafts.create({
+      'userId': config.userId,
+      'resource': {
+        'message': {
+          'raw': "base64EncodedEmail"
+        }
+      }
+    });
+    request.execute(e=>console.log(e));
+  }
   componentDidMount() {
+    let currentComponent = this;
     this.unregisterAuthObserver = firebase.auth().onAuthStateChanged(
-        (user) => this.setState({isSignedIn: !!user})
+        (user) => {
+
+    // Make sure there is a valid user object
+    if (user) {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src = "https://apis.google.com/js/api.js";
+      // Once the Google API Client is loaded, you can run your code
+      script.onload = function(e) {
+        // Initialize the Google API Client with the config object
+
+        window.gapi.load('client', () => {
+          window.gapi.client.init({
+            apiKey: config.apiKey,
+            clientId: config.clientId,
+            discoveryDocs: config.discoveryDocs,
+            scope: config.scopes.join(" ")
+          }).then(e=>{
+            currentComponent.startApp(user);
+            
+          }).catch(err=>console.log(err))
+          
+
+
+          // window.gapi.client.setApiKey(config.apiKey);
+          // window.gapi.client.load('gmail', 'v1', () => {
+          //   console.log(window.gapi.client.gmail.users)
+          //   var request = window.gapi.client.gmail.users.drafts.create({
+          //     userId: config.userId
+          //   });
+          //   request.execute((data)=>{
+          //     console.log(data)
+          //   }); 
+          // });
+        });
+        console.log()
+        
+      };
+      // Add to the document
+      document.getElementsByTagName("head")[0].appendChild(script);
+    }
+
+          this.setState({isSignedIn: !!user})
+        }
     );
+
+    // this.send();
   }
   componentWillMount(){
     console.log("called")
