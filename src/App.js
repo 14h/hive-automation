@@ -1,9 +1,6 @@
 import React from 'react';
-
-// import axios from 'axios';
-// import https from 'https';
 import './App.css';
-import { Table, Icon, Button, notification, Steps, Popconfirm, message, Modal, Input} from 'antd';
+import { Table, Icon, Button, notification, Popconfirm, message, Modal, Input} from 'antd';
 
 
 import 'antd/dist/antd.css';
@@ -11,14 +8,12 @@ import 'antd/dist/antd.css';
 import * as firebase from 'firebase';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 const { TextArea } = Input;
-//const gapi = require('gapi');
 
 
 function confirm() {
   message.info('Entry deleted from the Database!');
 }
 
-const Step = Steps.Step;
 const config = {
     apiKey: "AIzaSyCEeSAoo9PfTT1aK4CMgC_rhcCZ6H7HTmM",
     authDomain: "hiveautomation-c5f65.firebaseapp.com",
@@ -26,9 +21,6 @@ const config = {
     projectId: "hiveautomation-c5f65",
     storageBucket: "hiveautomation-c5f65.appspot.com",
     messagingSenderId: "828985598310",
-
-    // clientId: "1052428497950-sap7htqn10i3dd90npfvmlt7bmdi6qsg.apps.googleusercontent.com",
-    // lzumNNgPHT_kwTadXsP5Q3HM
     clientId: "828985598310-i29pqh0hc08bitv4icrnb8q2n8ihs34c.apps.googleusercontent.com",
     // gymnIPbSPiqgBXY3iW5d8sEv
     scopes: [
@@ -67,33 +59,33 @@ export default class DataTable extends React.Component {
           signInSuccessWithAuthResult: () => false
         }
       },
-      expandedRowRender: (record) =>{
-        if(false){
-          return <Steps style={{width: '80%', marginLeft: '10%'}}>
-                    <Step status="finish" title="Registered" icon={<Icon type="user" />} />
-                    <Step status="finish" title="Approved" icon={<Icon type="solution" />} />
-                    <Step status="finish" title="Pay" icon={<Icon type="euro" />} />
-                    <Step status="process" title="Verified" icon={<Icon type="database" />} />
-                    <Step status="wait" title="Done" icon={<Icon type="smile-o" />} />
-                  </Steps>
-        }
-        if(record.approved){
-          return <Steps style={{width: '80%', marginLeft: '10%'}}>
-                <Step status="finish" title="Registered" icon={<Icon type="user" />} />
-                <Step status="finish" title="Approved" icon={<Icon type="solution" />} />
-                <Step status="process" title="Pay" icon={<Icon type="loading" />} />
-                <Step status="wait" title="Verified" icon={<Icon type="database" />} />
-                <Step status="wait" title="Done" icon={<Icon type="smile-o" />} />
-              </Steps>
-        }
-        return <Steps style={{width: '80%', marginLeft: '10%'}}>
-                <Step status="finish" title="Registered" icon={<Icon type="user" />} />
-                <Step status="process" title="Approved" icon={<Icon type="loading" />} />
-                <Step status="wait" title="Pay" icon={<Icon type="euro" />} />
-                <Step status="wait" title="Verified" icon={<Icon type="database" />} />
-                <Step status="wait" title="Done" icon={<Icon type="smile-o" />} />
-              </Steps>
-      },
+      // expandedRowRender: (record) =>{
+      //   if(false){
+      //     return <Steps style={{width: '80%', marginLeft: '10%'}}>
+      //               <Step status="finish" title="Registered" icon={<Icon type="user" />} />
+      //               <Step status="finish" title="Approved" icon={<Icon type="solution" />} />
+      //               <Step status="finish" title="Pay" icon={<Icon type="euro" />} />
+      //               <Step status="process" title="Verified" icon={<Icon type="database" />} />
+      //               <Step status="wait" title="Done" icon={<Icon type="smile-o" />} />
+      //             </Steps>
+      //   }
+      //   if(record.approved){
+      //     return <Steps style={{width: '80%', marginLeft: '10%'}}>
+      //           <Step status="finish" title="Registered" icon={<Icon type="user" />} />
+      //           <Step status="finish" title="Approved" icon={<Icon type="solution" />} />
+      //           <Step status="process" title="Pay" icon={<Icon type="loading" />} />
+      //           <Step status="wait" title="Verified" icon={<Icon type="database" />} />
+      //           <Step status="wait" title="Done" icon={<Icon type="smile-o" />} />
+      //         </Steps>
+      //   }
+      //   return <Steps style={{width: '80%', marginLeft: '10%'}}>
+      //           <Step status="finish" title="Registered" icon={<Icon type="user" />} />
+      //           <Step status="process" title="Approved" icon={<Icon type="loading" />} />
+      //           <Step status="wait" title="Pay" icon={<Icon type="euro" />} />
+      //           <Step status="wait" title="Verified" icon={<Icon type="database" />} />
+      //           <Step status="wait" title="Done" icon={<Icon type="smile-o" />} />
+      //         </Steps>
+      // },
       isSignedIn: false,
       bordered: true,
       pagination: false,
@@ -103,7 +95,6 @@ export default class DataTable extends React.Component {
       selectedRows:[],
       rowSelection: {
         onChange: (selectedRowKeys, selectedRows) => {
-          // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
           this.setState({selectedRows:selectedRows.map(entry=>entry.email)})
         },
         getCheckboxProps: record => ({
@@ -144,14 +135,22 @@ export default class DataTable extends React.Component {
         key: 'why2',
         width: 500,
       }, {
-        title: <Icon type="check-circle" theme="outlined"  style={{ fontSize: '25px', color: 'transparent' }}  /> ,
+        title: <Icon type="solution" theme="outlined"  style={{ fontSize: '25px' }} /> ,
         key: 'action1',
         width: 70,
         render: (text, record) => (
-          
             <div>
-              {console.log(record)}
-              <Icon type="check-circle" theme="outlined"  style={{ fontSize: '25px', color: record.approved?'#1aa85a':'#EEE' }}  /> 
+              {(record.approved)?(<Icon type="check-circle" theme="outlined"  style={{ fontSize: '25px', color: '#1aa85a' }} />):(<Icon type="loading" theme="outlined"  style={{ fontSize: '25px' }} />)}
+            </div>
+        ),
+      }, {
+        title: <Icon type="euro" theme="outlined"  style={{ fontSize: '25px' }} /> ,
+        key: 'action2',
+        width: 70,
+        render: (text, record) => (
+            <div>
+              {(record.approved && !record.paid)?(<Icon type="loading" theme="outlined"  style={{ fontSize: '25px' }} />):(<Icon type="check-circle" theme="outlined"  style={{ fontSize: '25px', color: record.approved?'#1aa85a':'#EEE' }} />)}
+              {/* <Icon type="check-circle" theme="outlined"  style={{ fontSize: '25px', color: record.approved?'#1aa85a':'#EEE' }}  />  */}
             </div>
         ),
       }, {
@@ -162,8 +161,6 @@ export default class DataTable extends React.Component {
         width: 70,
         render: (text, record) => (
             <Button onClick={()=>{
-              // this.approve(record.email, firebase.auth().currentUser.email)
-              // this.sendEmail(record.email,"THEDIVE HIVE COMMUNITY", "EMAIL BODY")
               this.showModal(record.email)
             }}>Approve</Button>
         ),
@@ -245,75 +242,21 @@ export default class DataTable extends React.Component {
    }).catch((err)=>{
       console.log(err);
    });
-    // if(currentComponent.state.data[0].name.length < 1){
-    //   var getJSON = function(url, callback) {
-    //     var xhr = new XMLHttpRequest();
-    //     xhr.open('GET', url);
-    //     xhr.responseType = 'json';
-    //     xhr.onload = function() {
-    //       var status = xhr.status;
-    //       if (status === 200) {
-    //         callback(null, xhr.response);
-    //       } else {
-    //         callback(status, xhr.response);
-    //       }
-    //     };
-    //     xhr.send();
-    // };
-
-    // getJSON('https://us-central1-hiveautomation-c5f65.cloudfunctions.net/getAll',
-    //   function(err, data) {
-    //     if (err !== null) {
-    //       alert('Something went wrong: ' + err);
-    //     } else {
-    //       let dataArray = Object.values(data);
-    //       dataArray.map((entry,i)=>{
-    //         entry.key = i;
-    //         return entry;
-    //       })
-    //       currentComponent.setState({
-    //         data: dataArray,
-    //         loading: false
-    //       })
-    //     }
-    //   });
-    // }
   }
   delete(email){
     let currentComponent = this;
     currentComponent.setState({
       loading:true
     });
-    var getJSON = function(url, callback) {
-      var xhr = new XMLHttpRequest();
-      xhr.open('GET', url);
-      // xhr.setRequestHeader('Access-Control-Allow-Headers', 'true')
-      // xhr.setRequestHeader('Access-Control-Allow-Origin', 'true')
-      xhr.responseType = 'json';
-      xhr.onload = function() {
-        var status = xhr.status;
-        if (status === 200) {
-          callback(null, xhr.response);
-        } else {
-          callback(status, xhr.response);
-        }
-      };
-      xhr.send();
-    };
-
-    getJSON('https://us-central1-hiveautomation-c5f65.cloudfunctions.net/removeData?email='+email,
-      function(err, data) {
-        if (err !== null) {
-          alert('Something went wrong: ' + err);
-        } else {
-          currentComponent.setState((state) => {
-            return {
-              data: state.data.filter(entry => entry.email !== email),
-              loading:false
-             };
-          });
-        }
+    database.ref('/'+ email.replace(/[^a-zA-Z ]/g, "") + '/' ).remove().then((response)=>{
+      this.getJSONData();
+      currentComponent.setState({
+        loading:false
       });
+      return 1;
+    }).catch((err)=>{
+        console.log(err)
+    });
   }
   unregisterAuthObserver(){
     let currentComponent = this;
@@ -323,6 +266,9 @@ export default class DataTable extends React.Component {
   } 
   
   sendEmail(to, subject, body){
+    this.setState({
+      loading:true
+    });
     if(window.Email){
       window.Email.send(
         "kawji@thedive.com",
@@ -336,6 +282,9 @@ export default class DataTable extends React.Component {
           message.info('Email sent to '+ to);
           database.ref('/'  + to.replace(/[^a-zA-Z ]/g, "") + '/approved/' ).set(true).then((res) => {
               message.info('database updated');
+              this.setState({
+                loading:false
+              });
               return 0;
             }).catch((err) => {
               console.log(err)
@@ -346,15 +295,18 @@ export default class DataTable extends React.Component {
 
     }else{
       message.error('try again!')
+      this.setState({
+        loading:false
+      });
     }
   }
+
   componentDidMount() {
     var smtp = document.createElement("script");
     smtp.type = "text/javascript";
     smtp.src = "https://smtpjs.com/v2/smtp.js";
     // Once the Google API Client is loaded, you can run your code
     smtp.onload = function(e) {
-
       console.log('smtp loaded')
     };
     // Add to the document
@@ -412,7 +364,7 @@ export default class DataTable extends React.Component {
           <TextArea rows={4} value={this.state.emailContent} onChange={(e)=>{this.setState({emailContent:e.target.value})}}/>
         </Modal>
         <Button type="danger" id="firebaseui-auth-container" onClick={() => firebase.auth().signOut()}>Sign-out</Button>
-        <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+        <br/><br/><br/><br/><br/><br/><br/><br/><br/>
         <form action="https://us-central1-hiveautomation-c5f65.cloudfunctions.net/addData" target="https://www.google.com">
           name: <input type="text" name="name" required/><br/>
           email: <input type="text" name="email" required/><br/>
