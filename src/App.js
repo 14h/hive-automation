@@ -1,12 +1,32 @@
 import React from 'react';
 import './App.css';
 import { Table, Icon, Button, notification, Popconfirm, message, Modal, Input} from 'antd';
-
-
 import 'antd/dist/antd.css';
-
-import * as firebase from 'firebase';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+import * as firebase from 'firebase';
+const config = {
+  apiKey: "AIzaSyCEeSAoo9PfTT1aK4CMgC_rhcCZ6H7HTmM",
+  authDomain: "hiveautomation-c5f65.firebaseapp.com",
+  databaseURL: "https://hiveautomation-c5f65.firebaseio.com",
+  projectId: "hiveautomation-c5f65",
+  storageBucket: "hiveautomation-c5f65.appspot.com",
+  messagingSenderId: "828985598310",
+  clientId: "828985598310-i29pqh0hc08bitv4icrnb8q2n8ihs34c.apps.googleusercontent.com",
+  // gymnIPbSPiqgBXY3iW5d8sEv
+  scopes: [
+    "email",
+    "profile",
+    "https://www.googleapis.com/auth/gmail.compose",
+    "https://www.googleapis.com/auth/gmail.send",
+  ],
+  discoveryDocs: [
+    "https://www.googleapis.com/discovery/v1/apis/gmail/v1/rest"
+  ]
+};
+if (!firebase.apps.length) {
+  firebase.initializeApp(config);
+}
+
 const { TextArea } = Input;
 
 
@@ -14,28 +34,8 @@ function confirm() {
   message.info('Entry deleted from the Database!');
 }
 
-const config = {
-    apiKey: "AIzaSyCEeSAoo9PfTT1aK4CMgC_rhcCZ6H7HTmM",
-    authDomain: "hiveautomation-c5f65.firebaseapp.com",
-    databaseURL: "https://hiveautomation-c5f65.firebaseio.com",
-    projectId: "hiveautomation-c5f65",
-    storageBucket: "hiveautomation-c5f65.appspot.com",
-    messagingSenderId: "828985598310",
-    clientId: "828985598310-i29pqh0hc08bitv4icrnb8q2n8ihs34c.apps.googleusercontent.com",
-    // gymnIPbSPiqgBXY3iW5d8sEv
-    scopes: [
-      "email",
-      "profile",
-      "https://www.googleapis.com/auth/gmail.compose",
-      "https://www.googleapis.com/auth/gmail.send",
-    ],
-    discoveryDocs: [
-      "https://www.googleapis.com/discovery/v1/apis/gmail/v1/rest"
-    ]
-};
-if (!firebase.apps.length) {
-  firebase.initializeApp(config);
-}
+
+
 const database = firebase.database();
 
 export default class DataTable extends React.Component {
