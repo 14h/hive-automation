@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "antd": "^3.10.1",
+    "antd": "^3.10.3",
     "axios": "^0.18.0",
     "firebase": "^5.5.4",
     "firebase-functions": "^2.1.0",
@@ -14,7 +14,10 @@
     "react-autobind": "^1.0.6",
     "react-dom": "^16.5.2",
     "react-firebaseui": "^3.1.2",
-    "react-scripts": "2.0.4"
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "2.0.4",
+    "react-stripe-elements": "^2.0.1",
+    "stripe": "^6.13.0"
   },
   "scripts": {
     "start": "react-scripts start",
