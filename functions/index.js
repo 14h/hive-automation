@@ -58,10 +58,10 @@ const database = firebase.database();
 
 function markPaid(email){
     database.ref('/users/'  + email.replace(/[^a-zA-Z ]/g, "") + '/paid/' ).set(true).then(() => {
-        response.send("success");
+        // response.send("success");
         return 0;
         }).catch((err) => {
-        response.send(err)
+        console.log(err)
     });
 }
 
@@ -109,26 +109,65 @@ exports.addData = functions.https.onRequest((request, response) => {
         verified:           false,
         paid:               false,
     }).then((res) => {
-        response.send("success");
+        // response.send("success");
+        response.status(200).send(`<!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta http-equiv="X-UA-Compatible" content="ie=edge">
+            <title>THANK YOU</title>
+            <style>
+                @import url("https://fonts.googleapis.com/css?family=Montserrat:200,300,400,600");
+                @import url("https://fonts.googleapis.com/css?family=Lato");
+                body {
+                    margin: 0;
+                    padding: 0;
+                    overflow: hidden;
+                    width: 100%;
+                    height: 100%;
+                    background: #121212;
+                }
+        
+                .title {
+                    z-index: 10;
+                    position: absolute;
+                    left: 50%;
+                    top: 50%;
+                    transform: translateX(-50%) translateY(-50%) scale(0.8);
+                    text-align: center;
+                }
+                .title h3 {
+                    font-family: "Montserrat";
+                    font-weight: 200;
+                    font-size: 20px;
+                    padding: 0;
+                    margin: 0;
+                    line-height: 1;
+                    color: #FFFFFF;
+                    letter-spacing: 2px;
+                    user-select: none;
+                }
+        
+            </style>
+        </head>
+        <body>
+            <div class="title">
+                <h3>VIELEN DANK, WIR MELDEN UNS BALD ZURUCK</h3>
+              </div>
+        </body>
+        </html>`);
         return 0;
         }).catch((err) => {
         response.send(err)
     });
 });
 exports.updatePayments = functions.https.onRequest((request, response) => {
-    let email = "test3@example.com";
-    // const customer =  stripe.customers.create({
-    //     source: "tok_1DT491KNaUjTAffWgriVdF2Y",
-    //     email: email,
-    // });
-    // stripe.customers.list({email : customer.email}).then((
-
-    // )
     database.ref('/users/').once('value').then((snapshot)=>{
         return snapshot.val();
     }).then((data)=>{
-        // console.log(data)
         Object.keys(data).map((customer)=>{
+            // database.ref('/users/'+ data[customer].email.replace(/[^a-zA-Z ]/g, '') + '/paid/').set(true)
             if(data[customer].id){
                 stripe.subscriptions.create({
                     customer: data[customer].id,
@@ -141,11 +180,11 @@ exports.updatePayments = functions.https.onRequest((request, response) => {
                     },{
                         idempotency_key: data[customer].id
                     }, function(err, subscription) {
-                        markPaid(data[customer].email)
+                        // markPaid(data[customer].email)
                         if(err){
                             console.log(err)
                         } else{
-                            markPaid(data[customer].email)
+                            // markPaid(data[customer].email)
                         }
                     }
                 );
@@ -168,11 +207,11 @@ exports.updatePayments = functions.https.onRequest((request, response) => {
                         },{
                             idempotency_key: stripeResponse.id
                         }, function(err, subscription) {
-                            markPaid(data[customer].email)
+                            // markPaid(data[customer].email)
                             if(err){
                                 console.log(err)
                             } else{
-                                markPaid(data[customer].email)
+                                // markPaid(data[customer].email)
                             }
                         }
                     );

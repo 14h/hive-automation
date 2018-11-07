@@ -6,12 +6,7 @@
   box-sizing: border-box;
 }
 
-body,
-html {
-  background-color: #f6f9fc;
-  font-size: 18px;
-  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
-}
+
 
 h1 {
   color: #32325d;
@@ -21,7 +16,34 @@ h1 {
   margin: 20px 0;
   padding: 0;
 }
+.thanks-wrapper {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+  background-color: #121212;
+}
 
+.title {
+  z-index: 10;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%) scale(0.8);
+  text-align: center;
+}
+.title-h3 {
+  font-family: "Montserrat";
+  font-weight: 200;
+  font-size: 20px;
+  padding: 0;
+  margin: 0;
+  line-height: 1;
+  color: #FFFFFF;
+  letter-spacing: 2px;
+  user-select: none;
+}
 .Checkout {
   margin: 0 auto;
   max-width: 800px;

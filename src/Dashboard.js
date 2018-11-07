@@ -77,15 +77,6 @@ const expandedRowTableConfig = {
           {(record.approved)?(<Icon type="check-circle" theme="outlined"  style={{ fontSize: '25px', color: '#1aa85a' }} />):(<Icon type="loading" theme="outlined"  style={{ fontSize: '25px' }} />)}
         </div>
     ),
-  // }, {
-  //   title: <Icon type="euro" theme="outlined"  style={{ fontSize: '25px' }} /> ,
-  //   key: 'action2',
-  //   width: 70,
-  //   render: (text, record) => (
-  //       <div>
-  //         {(record.approved && !record.paid)?(<Icon type="loading" theme="outlined"  style={{ fontSize: '25px' }} />):(<Icon type="check-circle" theme="outlined"  style={{ fontSize: '25px', color: record.approved?'#1aa85a':'#EEE' }} />)}
-  //       </div>
-  //   ),
   }, {
     title: <Button onClick={()=>{
       this.state.selectedRows.forEach(selectedEmail=>this.approve(selectedEmail, firebase.auth().currentUser.email))
@@ -250,7 +241,6 @@ export default class Dashboard extends React.Component {
   }
 
   handleOk = (e) => {
-    console.log(e);
     this.sendEmail(this.state.selectedEmail,"TheDive Hive Community", this.state.emailContent + "/n https://hiveautomation-c5f65.firebaseapp.com/payment/"+this.state.selectedEmail);
     this.setState({
       modalVisible: false,
@@ -258,7 +248,6 @@ export default class Dashboard extends React.Component {
   }
 
   handleCancel = (e) => {
-    console.log(e);
     this.setState({
       modalVisible: false,
     });
@@ -345,7 +334,6 @@ export default class Dashboard extends React.Component {
     smtp.src = "https://smtpjs.com/v2/smtp.js";
     // Once the Google API Client is loaded, you can run your code
     smtp.onload = function(e) {
-      console.log('smtp loaded')
     };
     // Add to the document
     document.getElementsByTagName("head")[0].appendChild(smtp);
@@ -357,7 +345,6 @@ export default class Dashboard extends React.Component {
     );
   }
   componentWillMount(){
-    console.log("called")
     this.getJSONData();
     this.unregisterAuthObserver();
   }
@@ -415,111 +402,3 @@ export default class Dashboard extends React.Component {
     );
   }
 }
-
-// // Listen to the Firebase Auth state and set the local state.
-// send() {
-//   const script = document.createElement("script");
-//   script.src = "https://apis.google.com/js/client.js";
-//   script.onload = () => {
-//     window.gapi.load('client', () => {
-//       window.gapi.client.setApiKey(config.apiKey);
-//       window.gapi.client.load('gmail', 'v1', () => {
-//         // console.log(window.gapi.client.gmail.users)
-//         var request = window.gapi.client.gmail.users.drafts.create({
-//           // userId: config.userId
-//           userId: "kawji@thedive.com"
-//         });
-//         request.execute((data)=>{
-//           // console.log(data)
-//         }); 
-//       });
-//     });
-//   };
-//   document.body.appendChild(script);
-// }
-
-
-
-
-// onAuthStateChanged
-    // Make sure there is a valid user object
-    // if (user) {
-    //   var script = document.createElement("script");
-    //   script.type = "text/javascript";
-    //   script.src = "https://apis.google.com/js/api.js";
-    //   // Once the Google API Client is loaded, you can run your code
-    //   script.onload = function(e) {
-    //     // Initialize the Google API Client with the config object
-    //     window.gapi.load('client', () => {
-    //       window.gapi.client.init({
-    //         apiKey: config.apiKey,
-    //         clientId: config.clientId,
-    //         discoveryDocs: config.discoveryDocs,
-    //         scope: config.scopes.join(" ")
-    //       }).then(e=>{
-    //         currentComponent.startApp(user);
-            
-    //       }).catch(err=>console.log(err))
-    //     });
-    //   };
-    //   // Add to the document
-    //   document.getElementsByTagName("head")[0].appendChild(script);
-    // }
-
-
-
-
-
-    // startApp(user){
-    //   console.log(user)
-      
-    //   firebase.auth().currentUser.getIdToken()
-    //   .then(function(token) {
-    //     window.gapi.client.setToken({
-    //       'access_token': token
-    //     })
-    //     // return window.gapi.client.calendar.events.list({
-    //     // calendarId: "primary",
-    //     // timeMin: new Date().toISOString(),
-    //     // showDeleted: false,
-    //     // singleEvents: true,
-    //     // maxResults: 10,
-    //     // orderBy: "startTime"
-    //     // })  
-    //   })
-    //   .then(function(response) {
-    //     window.gapi.auth2.getAuthInstance().signIn().then(()=>{
-    //       let request = window.gapi.client.gmail.users.drafts.create({
-    //         // 'userId': config.userId,
-    //         'userId': user.uid,
-    //         'resource': {
-    //           'message': {
-    //             'raw': "base64EncodedEmail"
-    //           }
-    //         }
-    //       });
-    //       request.execute(e=>console.log(e)); 
-    //     })
-        
-    //   });
-      
-    // }
-
-
-
-    // approve(email, user){
-    //   var xhr = new XMLHttpRequest();
-    //   xhr.open("GET", "http://localhost:5001/hiveautomation-c5f65/us-central1/approveRequest?email="+email+"&user="+user);
-    //   xhr.responseType = 'json';
-    //   xhr.onload = () => {
-    //     var status = xhr.status;
-    //     if (status === 200) {
-    //       // console.log("the response is");
-    //       // console.log(xhr.response);
-    //     } else {
-    //       // console.log("failed");
-    //       // console.log(xhr.status);
-    //     }
-    //   }
-    //   xhr.send();
-    // }

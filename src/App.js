@@ -2,7 +2,9 @@ import React from 'react';
 import './App.css';
 import Dashboard from './Dashboard';
 import PaymentForm from './PaymentForm';
+import Thanks from './Thanks';
 import {  Route } from "react-router-dom";
+
 
 export default class App extends React.Component {
   constructor(props) {
@@ -14,6 +16,7 @@ export default class App extends React.Component {
     return (
       <div>
         <Route exact path="/dashboard" component={Dashboard} />
+        <Route exact path="/thanks" component={Thanks} />
         <Route exact path="/payment/:email" component={PaymentForm} />  
       </div>
     );

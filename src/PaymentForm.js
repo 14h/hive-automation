@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import * as firebase from 'firebase';
 import {CardElement, injectStripe, Elements, StripeProvider} from 'react-stripe-elements';
+import { Redirect } from "react-router-dom";
 
 const INITIAL_PRICE = 25;
 
@@ -54,7 +55,7 @@ const createOptions = (fontSize, padding) => {
     },
   };
 };
-let updatePayments = firebase.functions().httpsCallable('updatePayments');
+
 
 
 class _CardForm extends React.Component {
@@ -63,18 +64,21 @@ class _CardForm extends React.Component {
     this.state = {
       teamNumber :    1,
       selection:      1,
-      customer:       {name: '',email: '',teamNumber: 0,why1:'',why2:''}
+      customer:       {name: '',email: '',teamNumber: 0,why1:'',why2:''},
+      updated:        false
     }
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
+  updatePayments = firebase.functions().httpsCallable('updatePayments')
   handleSubmit = (ev) => {
     ev.preventDefault();
     if (this.props.stripe) {
       this.props.stripe
         .createToken()
         .then((payload) => {
-          console.log('[token]', payload);
           database.ref('/users/'+ this.state.customer.email.replace(/[^a-zA-Z ]/g, '') + '/token/').set(payload.token)
-          updatePayments()
+          this.updatePayments();
+          this.setState({updated: true})
         });
     } else {
       console.log("Stripe.js hasn't loaded yet.");
@@ -83,7 +87,11 @@ class _CardForm extends React.Component {
   componentDidMount(){
     database.ref('/users/'+this.props.email.replace(/[^a-zA-Z ]/g, "")+'/').once('value').then((snapshot)=>{
       this.setState({customer: snapshot.val()})
+      if(snapshot.val().paid){
+        this.setState({updated: true})
+      }
     })
+    
   }
   render() {
     return (
@@ -91,6 +99,7 @@ class _CardForm extends React.Component {
         width: '500px',
         margin: '0 auto',
       }}>
+        {this.state.updated && <Redirect to="/thanks"/>}
         <input name="name" type="text" placeholder={"Name: "+this.state.customer.name} disabled />
         <input name="email" type="text" placeholder={"Email: "+this.state.customer.email} disabled />
         <input  placeholder={this.state.customer.teamNumber + " Team Members"} disabled />
@@ -114,7 +123,6 @@ const CardForm = injectStripe(_CardForm);
 
 export default class PaymentForm extends React.Component {
   render() {
-    console.log(this.props.match.email)
     return (
       <div>
         <StripeProvider apiKey="pk_test_gsi7psKKygJDd3aO27kSEkVw">
