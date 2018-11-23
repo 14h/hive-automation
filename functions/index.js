@@ -106,6 +106,7 @@ exports.addData = functions.https.onRequest((request, response) => {
         why1:               request.query.why1,
         why2:               request.query.why2,
         teamNumber:         request.query.teamNumber,
+        accountType:        request.query.accountType,
         verified:           false,
         paid:               false,
     }).then((res) => {
@@ -191,8 +192,9 @@ exports.updatePayments = functions.https.onRequest((request, response) => {
 
             }else{
                 stripe.customers.create({
-                    email : data[customer].email,
-                    source: data[customer].token.id
+                    email :     data[customer].email,
+                    source:     data[customer].token.id,
+                    metadata:   data[customer].metaData
                 }).then((stripeResponse)=>{
                     // console.log(stripeResponse.id)
                     database.ref('/users/'+customer+'/id/').set(stripeResponse.id).catch(err=>console.log(err));

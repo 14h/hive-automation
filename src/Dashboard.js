@@ -5,6 +5,7 @@ import 'antd/dist/antd.css';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import * as firebase from 'firebase';
 
+const INITIALEMAILCONTENT = "This is an automated mail from TheDive Hive. Thanks for willing to be a part of the TheDive Hive Community"
 const config = {
   apiKey: "AIzaSyCEeSAoo9PfTT1aK4CMgC_rhcCZ6H7HTmM",
   authDomain: "hiveautomation-c5f65.firebaseapp.com",
@@ -162,6 +163,16 @@ export default class Dashboard extends React.Component {
         key: 'why2',
         width: 500,
       }, {
+        title: 'Account Type',
+        dataIndex: 'accountType',
+        key: 'accountType',
+        width: 200,
+      }, {
+        title: 'Wie Viele',
+        dataIndex: 'teamNumber',
+        key: 'teamNumber',
+        width: 100,
+      }, {
         title: <Icon type="solution" theme="outlined"  style={{ fontSize: '25px' }} /> ,
         key: 'action1',
         width: 70,
@@ -235,13 +246,14 @@ export default class Dashboard extends React.Component {
 
   showModal = (email) => {
     this.setState({
-      modalVisible: true,
-      selectedEmail: email
+      modalVisible:   true,
+      selectedEmail:  email,
+      emailContent:   INITIALEMAILCONTENT + "/n https://hiveautomation-c5f65.firebaseapp.com/payment/"+email
     });
   }
 
   handleOk = (e) => {
-    this.sendEmail(this.state.selectedEmail,"TheDive Hive Community", this.state.emailContent + "/n https://hiveautomation-c5f65.firebaseapp.com/payment/"+this.state.selectedEmail);
+    this.sendEmail(this.state.selectedEmail,"TheDive Hive Community", this.state.emailContent);
     this.setState({
       modalVisible: false,
     });
@@ -386,7 +398,7 @@ export default class Dashboard extends React.Component {
             </Button>,
           ]}
         >
-          <TextArea rows={4} value={this.state.emailContent+"/n https://hiveautomation-c5f65.firebaseapp.com/payment/"+this.state.selectedEmail} onChange={(e)=>{this.setState({emailContent:e.target.value})}}/>
+          <TextArea rows={4} value={this.state.emailContent} onChange={(e)=>{this.setState({emailContent:e.target.value})}}/>
         </Modal>
         <Button type="danger" id="firebaseui-auth-container" onClick={() => firebase.auth().signOut()}>Sign-out</Button>
         <br/><br/><br/><br/><br/><br/><br/><br/><br/>
@@ -395,7 +407,17 @@ export default class Dashboard extends React.Component {
           email: <input type="text" name="email" required/><br/>
           why1: <input type="text" name="why1" required/><br/>
           why2: <input type="text" name="why2" required/><br/>
+          Account Type:<br/><br/>
+          <select name="accountType" >
+            <option value="Basic">Basic</option>
+            <option value="Individual">Individual</option>
+            <option value="Entrepeneur">Entrepeneur</option>
+            <option value="Corporate">Corporate</option>
+          </select>
+          <br/>
+          <br/>
           Team Members: <input type="number" name="teamNumber" required/><br/>
+          
           <input type="submit" value="Submit"/>
         </form>
       </div>
