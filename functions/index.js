@@ -4,6 +4,7 @@
 
 const firebase = require('firebase');
 const functions = require('firebase-functions');
+const nodemailer = require('nodemailer');
 // Set your secret key: remember to change this to your live secret key in production
 // See your keys here: https://dashboard.stripe.com/account/apikeys
 var stripe = require("stripe")("sk_test_6luAcTzWINurIjFVt5ZeeFU4");
@@ -23,38 +24,41 @@ if (!firebase.apps.length) {
 }
 const database = firebase.database();
 
-// Token is created using Checkout or Elements!
-// Get the payment token ID submitted by the form:
-// function updatePayments(){
-//     database.ref('/payments/').once('value').then((snapshot)=>{
-//         let dataArray = Object.values(snapshot.val());
-//         dataArray.forEach((payment)=>{
-//             let charge = stripe.charges.create({
-//                 amount: payment.teamNumber * 25,
-//                 currency: 'usd',
-//                 description: payment.email,
-//                 source: payment.token,
-//               }, {
-//                 idempotency_key: payment.email
-//               }, function(err, charge) {
-//                 // asynchronously called
-//                 console.log(err, charge)
-//               });
+// TODO: CHANGE EMAIL AND PASSWORD. LOGIN WITH THEM AND ENABLE LESS SECURE APPS
+// https://myaccount.google.com/lesssecureapps
+const gmailEmail = 'zero@thedive.com';
+const gmailPassword = 'TheDive1234';
+const mailTransport = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: gmailEmail,
+    pass: gmailPassword,
+  },
+});
 
-//         })
-//         return snapshot.val();
-//      }).catch((err)=>{
-//         console.log(err);
-//      });
-// }
-
-// const charge = stripe.charges.create({
-//   amount: 999,
-//   currency: 'usd',
-//   description: 'Example charge',
-//   source: token,
-// });
-
+const APP_NAME = 'TheDive Hive'
+// Sends a welcome email to the given user.
+function sendWelcomeEmail(email, emailContent) {
+    const mailOptions = {
+      from: `${APP_NAME} <noreply@firebase.com>`,
+      to: email,
+    };
+  
+    // The user subscribed to the newsletter.
+    mailOptions.subject = `Welcome to ${APP_NAME}!`;
+    mailOptions.text = emailContent;
+    return mailTransport.sendMail(mailOptions).then(() => {
+      return console.log('New welcome email sent to:', email);
+    }).catch(err=>console.log(err));
+}
+exports.sendEmail = functions.https.onCall((data, context) => {
+    console.log(data)
+    sendWelcomeEmail(data.email, data.emailContent)
+    // console.log(firebase)
+    // console.log(functions)
+    // response.send(JSON.stringify(request));
+    // response.send(firebase);
+});
 
 function markPaid(email){
     database.ref('/users/'  + email.replace(/[^a-zA-Z ]/g, "") + '/paid/' ).set(true).then(() => {
@@ -240,5 +244,39 @@ exports.getAll = functions.https.onRequest((request, response) => {
         response.send(err);
      });
 });
+
     
     
+
+
+// Token is created using Checkout or Elements!
+// Get the payment token ID submitted by the form:
+// function updatePayments(){
+//     database.ref('/payments/').once('value').then((snapshot)=>{
+//         let dataArray = Object.values(snapshot.val());
+//         dataArray.forEach((payment)=>{
+//             let charge = stripe.charges.create({
+//                 amount: payment.teamNumber * 25,
+//                 currency: 'usd',
+//                 description: payment.email,
+//                 source: payment.token,
+//               }, {
+//                 idempotency_key: payment.email
+//               }, function(err, charge) {
+//                 // asynchronously called
+//                 console.log(err, charge)
+//               });
+
+//         })
+//         return snapshot.val();
+//      }).catch((err)=>{
+//         console.log(err);
+//      });
+// }
+
+// const charge = stripe.charges.create({
+//   amount: 999,
+//   currency: 'usd',
+//   description: 'Example charge',
+//   source: token,
+// });

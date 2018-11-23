@@ -1,0 +1,99 @@
+[debug] [2018-11-23T14:47:37.615Z] ----------------------------------------------------------------------
+[debug] [2018-11-23T14:47:37.617Z] Command:       /usr/local/bin/node /usr/local/bin/firebase serve
+[debug] [2018-11-23T14:47:37.617Z] CLI Version:   6.1.1
+[debug] [2018-11-23T14:47:37.617Z] Platform:      darwin
+[debug] [2018-11-23T14:47:37.617Z] Node Version:  v10.12.0
+[debug] [2018-11-23T14:47:37.618Z] Time:          Fri Nov 23 2018 15:47:37 GMT+0100 (Central European Standard Time)
+[debug] [2018-11-23T14:47:37.618Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-11-23T14:47:37.628Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-11-23T14:47:37.628Z] > authorizing via signed-in user
+[debug] [2018-11-23T14:47:37.628Z] [iam] checking project hiveautomation-c5f65 for permissions ["firebase.projects.get"]
+[debug] [2018-11-23T14:47:37.630Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/hiveautomation-c5f65:testIamPermissions  
+
+[debug] [2018-11-23T14:47:38.532Z] <<< HTTP RESPONSE 200
+[debug] [2018-11-23T14:47:38.533Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/hiveautomation-c5f65  
+ 
+[debug] [2018-11-23T14:47:39.353Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from '/Users/abdallahkawji/Documents/Projects/hive-automation'...
+[info] 
+[debug] [2018-11-23T14:47:40.226Z] Error: EACCES: permission denied, mkdir '/usr/local/lib/node_modules/firebase-tools/node_modules/@google-cloud/functions-emulator/logs'
+    at Object.mkdirSync (fs.js:750:3)
+    at Object.assertLogsPath (/usr/local/lib/node_modules/firebase-tools/node_modules/@google-cloud/functions-emulator/src/emulator/logs.js:65:10)
+    at new Controller (/usr/local/lib/node_modules/firebase-tools/node_modules/@google-cloud/functions-emulator/src/cli/controller.js:77:32)
+    at FunctionsEmulator.start (/usr/local/lib/node_modules/firebase-tools/lib/functionsEmulator.js:102:23)
+    at Object.start (/usr/local/lib/node_modules/firebase-tools/lib/serve/functions.js:7:33)
+    at /usr/local/lib/node_modules/firebase-tools/lib/serve/index.js:15:23
+    at arrayMap (/usr/local/lib/node_modules/firebase-tools/node_modules/lodash/lodash.js:639:23)
+    at Function.map (/usr/local/lib/node_modules/firebase-tools/node_modules/lodash/lodash.js:9556:14)
+    at _serve (/usr/local/lib/node_modules/firebase-tools/lib/serve/index.js:13:26)
+    at Command.module.exports.Command.description.option.option.option.option.before.action [as _action] (/usr/local/lib/node_modules/firebase-tools/lib/commands/serve.js:55:12)
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2018-11-23T14:48:24.777Z] ----------------------------------------------------------------------
+[debug] [2018-11-23T14:48:24.779Z] Command:       /usr/local/bin/node /usr/local/bin/firebase serve
+[debug] [2018-11-23T14:48:24.779Z] CLI Version:   6.1.1
+[debug] [2018-11-23T14:48:24.779Z] Platform:      darwin
+[debug] [2018-11-23T14:48:24.779Z] Node Version:  v10.12.0
+[debug] [2018-11-23T14:48:24.780Z] Time:          Fri Nov 23 2018 15:48:24 GMT+0100 (Central European Standard Time)
+[debug] [2018-11-23T14:48:24.780Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-11-23T14:48:24.790Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-11-23T14:48:24.790Z] > authorizing via signed-in user
+[debug] [2018-11-23T14:48:24.790Z] [iam] checking project hiveautomation-c5f65 for permissions ["firebase.projects.get"]
+[debug] [2018-11-23T14:48:24.792Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/hiveautomation-c5f65:testIamPermissions  
+
+[debug] [2018-11-23T14:48:25.660Z] <<< HTTP RESPONSE 200
+[debug] [2018-11-23T14:48:25.661Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/hiveautomation-c5f65  
+ 
+[debug] [2018-11-23T14:48:26.489Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from '/Users/abdallahkawji/Documents/Projects/hive-automation'...
+[info] 
+[debug] [2018-11-23T14:48:27.050Z] Error: EACCES: permission denied, mkdir '/usr/local/lib/node_modules/firebase-tools/node_modules/@google-cloud/functions-emulator/logs'
+    at Object.mkdirSync (fs.js:750:3)
+    at Object.assertLogsPath (/usr/local/lib/node_modules/firebase-tools/node_modules/@google-cloud/functions-emulator/src/emulator/logs.js:65:10)
+    at new Controller (/usr/local/lib/node_modules/firebase-tools/node_modules/@google-cloud/functions-emulator/src/cli/controller.js:77:32)
+    at FunctionsEmulator.start (/usr/local/lib/node_modules/firebase-tools/lib/functionsEmulator.js:102:23)
+    at Object.start (/usr/local/lib/node_modules/firebase-tools/lib/serve/functions.js:7:33)
+    at /usr/local/lib/node_modules/firebase-tools/lib/serve/index.js:15:23
+    at arrayMap (/usr/local/lib/node_modules/firebase-tools/node_modules/lodash/lodash.js:639:23)
+    at Function.map (/usr/local/lib/node_modules/firebase-tools/node_modules/lodash/lodash.js:9556:14)
+    at _serve (/usr/local/lib/node_modules/firebase-tools/lib/serve/index.js:13:26)
+    at Command.module.exports.Command.description.option.option.option.option.before.action [as _action] (/usr/local/lib/node_modules/firebase-tools/lib/commands/serve.js:55:12)
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2018-11-23T14:48:34.672Z] ----------------------------------------------------------------------
+[debug] [2018-11-23T14:48:34.674Z] Command:       /usr/local/bin/node /usr/local/bin/firebase serve
+[debug] [2018-11-23T14:48:34.674Z] CLI Version:   6.1.1
+[debug] [2018-11-23T14:48:34.674Z] Platform:      darwin
+[debug] [2018-11-23T14:48:34.674Z] Node Version:  v10.12.0
+[debug] [2018-11-23T14:48:34.675Z] Time:          Fri Nov 23 2018 15:48:34 GMT+0100 (Central European Standard Time)
+[debug] [2018-11-23T14:48:34.675Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-11-23T14:48:34.685Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-11-23T14:48:34.685Z] > authorizing via signed-in user
+[debug] [2018-11-23T14:48:34.685Z] [iam] checking project hiveautomation-c5f65 for permissions ["firebase.projects.get"]
+[debug] [2018-11-23T14:48:34.687Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/hiveautomation-c5f65:testIamPermissions  
+
+[debug] [2018-11-23T14:48:35.566Z] <<< HTTP RESPONSE 200
+[debug] [2018-11-23T14:48:35.567Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/hiveautomation-c5f65  
+ 
+[debug] [2018-11-23T14:48:36.397Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from '/Users/abdallahkawji/Documents/Projects/hive-automation'...
+[info] 
+[debug] [2018-11-23T14:48:36.975Z] Error: EACCES: permission denied, mkdir '/usr/local/lib/node_modules/firebase-tools/node_modules/@google-cloud/functions-emulator/logs'
+    at Object.mkdirSync (fs.js:750:3)
+    at Object.assertLogsPath (/usr/local/lib/node_modules/firebase-tools/node_modules/@google-cloud/functions-emulator/src/emulator/logs.js:65:10)
+    at new Controller (/usr/local/lib/node_modules/firebase-tools/node_modules/@google-cloud/functions-emulator/src/cli/controller.js:77:32)
+    at FunctionsEmulator.start (/usr/local/lib/node_modules/firebase-tools/lib/functionsEmulator.js:102:23)
+    at Object.start (/usr/local/lib/node_modules/firebase-tools/lib/serve/functions.js:7:33)
+    at /usr/local/lib/node_modules/firebase-tools/lib/serve/index.js:15:23
+    at arrayMap (/usr/local/lib/node_modules/firebase-tools/node_modules/lodash/lodash.js:639:23)
+    at Function.map (/usr/local/lib/node_modules/firebase-tools/node_modules/lodash/lodash.js:9556:14)
+    at _serve (/usr/local/lib/node_modules/firebase-tools/lib/serve/index.js:13:26)
+    at Command.module.exports.Command.description.option.option.option.option.before.action [as _action] (/usr/local/lib/node_modules/firebase-tools/lib/commands/serve.js:55:12)
+[error] 
+[error] Error: An unexpected error has occurred.

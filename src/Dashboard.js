@@ -32,6 +32,8 @@ if (!firebase.apps.length) {
 
 const { TextArea } = Input;
 
+const sendEmailUsingFirebase = firebase.functions().httpsCallable('sendEmail');
+
 function confirm() {
   message.info('Entry deleted from the Database!');
 }
@@ -253,7 +255,20 @@ export default class Dashboard extends React.Component {
   }
 
   handleOk = (e) => {
-    this.sendEmail(this.state.selectedEmail,"TheDive Hive Community", this.state.emailContent);
+    // this.sendEmail(this.state.selectedEmail,"TheDive Hive Community", this.state.emailContent);
+    sendEmailUsingFirebase({email:this.state.selectedEmail, emailContent:this.state.emailContent});
+    message.info('Email sent to '+ this.state.selectedEmail);
+          database.ref('/users/'  + this.state.selectedEmail.replace(/[^a-zA-Z ]/g, "") + '/approved/' ).set(true).then((res) => {
+              message.info('database updated');
+              this.setState({
+                loading:false
+              });
+              return 0;
+            }).catch((err) => {
+              console.log(err)
+            });
+            this.getJSONData();
+
     this.setState({
       modalVisible: false,
     });
@@ -398,12 +413,12 @@ export default class Dashboard extends React.Component {
             </Button>,
           ]}
         >
-          <TextArea rows={4} value={this.state.emailContent} onChange={(e)=>{this.setState({emailContent:e.target.value})}}/>
+          <TextArea rows={10} value={this.state.emailContent} onChange={(e)=>{this.setState({emailContent:e.target.value})}}/>
         </Modal>
         <Button type="danger" id="firebaseui-auth-container" onClick={() => firebase.auth().signOut()}>Sign-out</Button>
         <br/><br/><br/><br/><br/><br/><br/><br/><br/>
         <form action="https://us-central1-hiveautomation-c5f65.cloudfunctions.net/addData" target="https://www.google.com">
-          name: <input type="text" name="name" required/><br/>
+          Fullname: <input type="text" name="name" required/><br/>
           email: <input type="text" name="email" required/><br/>
           why1: <input type="text" name="why1" required/><br/>
           why2: <input type="text" name="why2" required/><br/>

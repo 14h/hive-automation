@@ -82,23 +82,27 @@ class _CardForm extends React.Component {
           database.ref('/users/'+ this.state.customer.email.replace(/[^a-zA-Z ]/g, '') + '/token/').set(payload.token)
           database.ref('/users/'+ this.state.customer.email.replace(/[^a-zA-Z ]/g, '') + '/metaData/').set({
             strasse:          this.state.strasse,
-            hausNummer:       this.state.hausNummer,
+            hausnummer:       this.state.hausnummer,
             plz:              this.state.plz,
             stadt:            this.state.stadt,
             name:             this.state.customer.name,
-            email:             this.state.customer.email,
+            invoiceName:      this.state.name,
+            email:            this.state.customer.email,
           })
           
           this.updatePayments();
+          this.hasPaid().then(()=>{
+            this.setState({updated: true})
+          }).catch(err=>this.state({err:err}))
           this.setState({updated: true})
         });
     } else {
       console.log("Stripe.js hasn't loaded yet.");
     }
   };
-  componentDidMount(){
+  componentWillMount(){
     database.ref('/users/'+this.props.email.replace(/[^a-zA-Z ]/g, "")+'/').once('value').then((snapshot)=>{
-      this.setState({customer: snapshot.val()})
+      this.setState({customer: snapshot.val(), name: snapshot.val().name})
       if(snapshot.val().accountType === 'Basic'){
         this.setState({INITIAL_PRICE: 10})
       }
@@ -125,21 +129,40 @@ class _CardForm extends React.Component {
         marginTop:  '50px'
       }}>
         {(this.state.updated ) && <Redirect to="/thanks"/>}
-        <input name="name" type="text" placeholder={"Name: "+this.state.customer.name} disabled />
-        <input name="email" type="text" placeholder={"Email: "+this.state.customer.email} disabled />
-        <input  placeholder={this.state.customer.teamNumber + " Team Members"} disabled />
-        <input  placeholder={this.state.customer.why1 + " "} disabled />
-        <input  placeholder={this.state.customer.why2 + " "} disabled />
-        <input  placeholder={this.state.customer.accountType + " "} disabled />
+
+        <div style={{textAlign: 'center', width: '500px'}} >
+          <span style={{fontSize: '18px'}}>Bestellung</span>
+        </div>
+        <label>Name</label>
+        <input name="name" type="text" placeholder={this.state.customer.name} disabled />
+        <br/>
+        <label>Email</label>
+        <input name="email" type="text" placeholder={this.state.customer.email} disabled />
+        <br/>
+        <div className="line" style={{display: 'flex', flexDirection:'row', justifyContent:'space-between', width: '100%'}}>
+          <div>
+            <label>Plan</label>
+            <input  placeholder={this.state.customer.accountType}  style={{width:'400px'}} disabled/>
+          </div>
+          <div style={{marginTop:'32px'}}>X</div>
+          <div>
+            <label>Quantity</label>
+            <input  placeholder={this.state.customer.teamNumber}   style={{width:'70px'}} disabled/>
+          </div>
+        </div>
+        <br/>
         <br/>
         <br/>
         <div style={{textAlign: 'center', width: '500px'}} >
-          <span style={{fontSize: '18px'}}>Rechnung Adresse</span>
+          <span style={{fontSize: '18px'}}>Rechnungsadresse</span>
         </div>
         
         <br/>
         <label>Firma</label>
         <input value={this.state.firma} onChange={(e)=>this.setState({firma: e.target.value})} style={{width:'500px'}} />
+        <br/>
+        <label>Name</label>
+        <input value={this.state.name} onChange={(e)=>this.setState({name: e.target.value})} style={{width:'500px'}} />
         <br/>
         <div className="line" style={{display: 'flex', flexDirection:'row', justifyContent:'space-between', width: '100%'}}>
           <div>
@@ -147,8 +170,8 @@ class _CardForm extends React.Component {
             <input  value={this.state.strasse} onChange={(e)=>this.setState({strasse: e.target.value})} style={{width:'350px'}} required/>
           </div>
           <div>
-            <label>Hausnummer*</label>
-            <input  value={this.state.hausNummer} onChange={(e)=>this.setState({hausNummer: e.target.value})}  style={{width:'130px'}} required/>
+            <label>hausnummer*</label>
+            <input  value={this.state.hausnummer} onChange={(e)=>this.setState({hausnummer: e.target.value})}  style={{width:'130px'}} required/>
           </div>
         </div>
         <br/>
@@ -166,16 +189,33 @@ class _CardForm extends React.Component {
         <br/>
        
         
-      
+        <div style={{textAlign: 'center', width: '500px'}} >
+          <span style={{fontSize: '18px'}}>Zahlung</span>
+        </div>
+        <br/>
         <label>Card Details</label>
         <CardElement
+            // hidePostalCode={true}
             onBlur={handleBlur}
             onChange={handleChange}
             onFocus={handleFocus}
             onReady={this.handleReady}
             {...createOptions(this.props.fontSize)}
           />
-        {(this.state.teamNumber > 0 && this.state.strasse && this.state.hausNummer && this.state.plz && this.state.stadt && this.state.ready )&&<button >Pay {this.state.customer.teamNumber * this.state.INITIAL_PRICE }€ </button>}
+          <br/><hr/><br/>
+          <div className="line" style={{display: 'flex', flexDirection:'row', justifyContent:'space-around', width: '100%', alignItems:'center'}}>
+          <div>
+            <span style={{fontSize: '18px'}}>Summe:</span>
+            <span style={{fontSize: '18px'}}>{this.state.customer.teamNumber * this.state.INITIAL_PRICE }€</span>
+            
+          </div>
+          <div>
+          <button> bezahlen</button>
+            
+          </div>
+        </div>
+
+        {(this.state.teamNumber > 0 && this.state.strasse && this.state.hausnummer && this.state.plz && this.state.stadt && this.state.ready )&&<button >Pay </button>}
       </form>
     );
   }
